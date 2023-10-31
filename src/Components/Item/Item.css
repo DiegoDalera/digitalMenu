@@ -1,0 +1,19 @@
+/* Item.css */
+.item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .item-image {
+    width: 100%;
+    max-height: 200px;  /* Ajusta este valor según tus necesidades */
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .item-price {
+    font-weight: bold;
+  }
+  

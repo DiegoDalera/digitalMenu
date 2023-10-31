@@ -1,8 +1,10 @@
-import React from 'react'
+import { BsFillCartFill } from 'react-icons/bs';
+import './Cart.css'
+
 
 const Cart = () => {
   return (
-    <div>Cart</div>
+    <div className='cart-icon'><BsFillCartFill /></div>
   )
 }
 

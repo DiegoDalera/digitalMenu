@@ -1,8 +1,6 @@
-import React from 'react'
-
 const Logo = () => {
   return (
-    <div>Logo</div>
+    <div>Diego Menu</div>
   )
 }
 
