@@ -1,0 +1,68 @@
+[
+    {
+      "id": 1,
+      "title": "Hamburguesa Clásica",
+      "descripcion": "Una deliciosa hamburguesa con carne de res, lechuga, tomate y mayonesa.",
+      "category": "Hamburguesas",
+      "prize": 8.99,
+      "image": "hamburguesa.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Pizza Margherita",
+      "descripcion": "Pizza con salsa de tomate, mozzarella fresca y albahaca.",
+      "category": "Pizzas",
+      "prize": 10.99,
+      "image": "pizza.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Ensalada César",
+      "descripcion": "Ensalada fresca con lechuga, pollo a la parrilla, crutones y aderezo César.",
+      "category": "Ensaladas",
+      "prize": 7.49,
+      "image": "ensalada.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Sushi Variado",
+      "descripcion": "Una selección de sushi fresco, incluyendo rollos de atún, salmón y aguacate.",
+      "category": "Sushi",
+      "prize": 12.99,
+      "image": "sushi.jpg"
+    },
+    {
+        "id": 5,
+        "title": "Hamburguesa Clásica",
+        "descripcion": "Una deliciosa hamburguesa con carne de res, lechuga, tomate y mayonesa.",
+        "category": "Hamburguesas",
+        "prize": 8.99,
+        "image": "hamburguesa.jpg"
+      },
+      {
+        "id": 6,
+        "title": "Pizza Margherita",
+        "descripcion": "Pizza con salsa de tomate, mozzarella fresca y albahaca.",
+        "category": "Pizzas",
+        "prize": 10.99,
+        "image": "pizza.jpg"
+      },
+      {
+        "id": 7,
+        "title": "Ensalada César",
+        "descripcion": "Ensalada fresca con lechuga, pollo a la parrilla, crutones y aderezo César.",
+        "category": "Ensaladas",
+        "prize": 7.49,
+        "image": "ensalada.jpg"
+      },
+      {
+        "id": 8,
+        "title": "Sushi Variado",
+        "descripcion": "Una selección de sushi fresco, incluyendo rollos de atún, salmón y aguacate.",
+        "category": "Sushi",
+        "prize": 12.99,
+        "image": "sushi.jpg"
+      }
+
+  ]
+  
