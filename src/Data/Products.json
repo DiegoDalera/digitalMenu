@@ -5,7 +5,7 @@
       "descripcion": "Una deliciosa hamburguesa con carne de res, lechuga, tomate y mayonesa.",
       "category": "Hamburguesas",
       "prize": 8.99,
-      "image": "hamburguesa.jpg"
+      "image": "./public/img/items/hamburguesaClasica.jpg"
     },
     {
       "id": 2,
@@ -13,7 +13,7 @@
       "descripcion": "Pizza con salsa de tomate, mozzarella fresca y albahaca.",
       "category": "Pizzas",
       "prize": 10.99,
-      "image": "pizza.jpg"
+      "image": "../../public/img/items/Pizza_margarita.jpg"
     },
     {
       "id": 3,
@@ -21,7 +21,7 @@
       "descripcion": "Ensalada fresca con lechuga, pollo a la parrilla, crutones y aderezo César.",
       "category": "Ensaladas",
       "prize": 7.49,
-      "image": "ensalada.jpg"
+      "image": "../../public/img/items/ensalada-cesar.jpg"
     },
     {
       "id": 4,
@@ -29,7 +29,7 @@
       "descripcion": "Una selección de sushi fresco, incluyendo rollos de atún, salmón y aguacate.",
       "category": "Sushi",
       "prize": 12.99,
-      "image": "sushi.jpg"
+      "image": "../../public/img/items/sushi.webp"
     },
     {
         "id": 5,
@@ -37,7 +37,7 @@
         "descripcion": "Una deliciosa hamburguesa con carne de res, lechuga, tomate y mayonesa.",
         "category": "Hamburguesas",
         "prize": 8.99,
-        "image": "hamburguesa.jpg"
+        "image": "./public/img/items/hamburguesaClasica.jpg"
       },
       {
         "id": 6,
@@ -45,7 +45,7 @@
         "descripcion": "Pizza con salsa de tomate, mozzarella fresca y albahaca.",
         "category": "Pizzas",
         "prize": 10.99,
-        "image": "pizza.jpg"
+        "image": "../../public/img/items/Pizza_margarita.jpg"
       },
       {
         "id": 7,
@@ -53,7 +53,7 @@
         "descripcion": "Ensalada fresca con lechuga, pollo a la parrilla, crutones y aderezo César.",
         "category": "Ensaladas",
         "prize": 7.49,
-        "image": "ensalada.jpg"
+        "image": "../../public/img/items/ensalada-cesar.jpg"
       },
       {
         "id": 8,
@@ -61,7 +61,7 @@
         "descripcion": "Una selección de sushi fresco, incluyendo rollos de atún, salmón y aguacate.",
         "category": "Sushi",
         "prize": 12.99,
-        "image": "sushi.jpg"
+        "image": "../../public/img/items/sushi.webp"
       }
 
   ]

@@ -3,19 +3,33 @@ import products from '../../Data/products.json';
 import Item from '../Item/Item'
 import './ItemList.css';
 
+
 function ItemList({ category }) {
   const filteredProducts = category 
     ? products.filter(product => product.category === category)
     : products;
 
+  const handleAddToOrder = (productId) => {
+    // Obtener el pedido actual desde localStorage
+    const currentOrder = JSON.parse(localStorage.getItem('order')) || [];
+    
+    // Agregar el nuevo producto al pedido
+    currentOrder.push(productId);
+    
+    // Guardar el pedido actualizado en localStorage
+    localStorage.setItem('order', JSON.stringify(currentOrder));
+  }
+
   return (
     <div className="item-list">
       {filteredProducts.map(product => (
-        <Item key={product.id} 
+        <Item key={product.id}
+              id={product.id} 
               image={product.image} 
               title={product.title} 
               descripcion={product.descripcion} 
-              prize={product.prize} />
+              prize={product.prize}
+              onAddToOrder={handleAddToOrder} />
       ))}
     </div>
   );

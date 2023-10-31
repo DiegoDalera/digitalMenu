@@ -16,4 +16,18 @@
   .item-price {
     font-weight: bold;
   }
+
+  .photo-item {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    border: 0.25rem solid #c59d5f;
+    border-radius: 0.25rem;
+    display: block;
+}
+
+.item-text {
+  margin-bottom: 0;
+  padding-top: 1rem;
+}
   
