@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 import products from '../../Data/products.json';
 import "./Categories.css";

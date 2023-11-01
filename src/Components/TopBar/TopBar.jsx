@@ -1,15 +1,16 @@
+/* eslint-disable react/prop-types */
 import Cart from "../Cart/Cart";
 import Logo from "../Logo/Logo";
-import './TopBar.css'
+import './TopBar.css';
 
-function TopBar() {
+function TopBar({ orderCount }) {
   return (
     <div className="topBar">
       <Logo />
-
-      <Cart />
+      <Cart orderCount={orderCount} />
     </div>
   );
 }
 
 export default TopBar;
+

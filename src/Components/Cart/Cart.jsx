@@ -1,11 +1,12 @@
-import { BsFillCartFill } from 'react-icons/bs';
-import './Cart.css'
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 
-
-const Cart = () => {
+function Cart({ orderCount, onAddToOrder }) {
   return (
-    <div className='cart-icon'><BsFillCartFill /></div>
-  )
+    <div className="cart">
+      🛒 {orderCount}
+    </div>
+  );
 }
 
-export default Cart
+export default Cart;
