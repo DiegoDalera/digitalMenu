@@ -1,18 +1,15 @@
-// CartModal.jsx
-import './CartModal.css'; // Asegúrate de crear los estilos correspondientes
+/* eslint-disable react/prop-types */
+import './CartModal.css'
 
-const CartModal = ({ products, onClose }) => {
+function CartModal({ onClose }) {
   return (
-    <div className="cart-modal">
-      <div className="cart-modal-content">
-        <button onClick={onClose}>Cerrar</button>
-        {/* Aquí iría la lógica para renderizar los productos */}
-        {products.map(product => (
-          <div key={product}>{product}</div> // Asumiendo que product es un ID o algo simple
-        ))}
-      </div>
+    <div className="modal-content">
+       <h2>Realiza tu pedido</h2>
+       
+      <button onClick={onClose}>Cerrar</button>
+     
     </div>
   );
-};
+}
 
 export default CartModal;
