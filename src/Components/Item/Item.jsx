@@ -13,10 +13,4 @@ function Item({ id, image, title, descripcion, prize, onAddToOrder }) {
   );
 }
 
-
-
-
-
-
-
 export default Item;
