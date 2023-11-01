@@ -1,27 +1,77 @@
 /* ItemList.css */
 .item-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.item {
+  flex-basis: calc(30% - 2rem);
+  /* Ajusta este valor según tus necesidades */
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.item-image {
+  width: 100%;
+  max-height: 200px;
+  /* Ajusta este valor según tus necesidades */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-price {
+  font-weight: bold;
+}
+
+.btn-button {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #212529;
+  color: #212529;
+}
+.btn-button:hover {
+  color: #fff;
+}
+.btn-button:hover:after {
+  width: 100%;
+}
+.btn-button:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #212529;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .item-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding: 2rem;
+    flex-direction: column;
+
   }
-  
-  .item {
-    flex-basis: calc(25% - 2rem);  /* Ajusta este valor según tus necesidades */
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .item-image {
-    width: 100%;
-    max-height: 200px; /* Ajusta este valor según tus necesidades */
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .item-price {
-    font-weight: bold;
-  }
-  
+
+
+}

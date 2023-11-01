@@ -8,7 +8,7 @@ function Item({ id, image, title, descripcion, prize, onAddToOrder }) {
       <h3>{title}</h3>
       <p>{descripcion}</p>
       <p className="item-price">${prize.toFixed(2)}</p>
-      <button onClick={() => onAddToOrder(id)}>Agregar al pedido</button>
+      <button className="btn-button" onClick={() => onAddToOrder(id)}>Agregar al pedido</button>
     </div>
   );
 }

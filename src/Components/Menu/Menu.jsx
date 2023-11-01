@@ -4,6 +4,7 @@ import Categories from '../Categories/Categories';
 import ItemList from '../ItemList/ItemList';
 
 function Menu({ onIncrementOrderCount  }) {
+  
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
