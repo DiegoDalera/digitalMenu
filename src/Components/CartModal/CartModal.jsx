@@ -1,34 +1,13 @@
 
-import { useState, useEffect } from 'react';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import app from '../../Data/firebaseApp'; 
+import { useProducts } from '../Hooks/ProductsContext';
 import "./CartModal.css";
 
 function CartModal({ onClose }) {
+  const { products } = useProducts(); // Usamos el hook para acceder a los productos del contexto
+  const orderIds = JSON.parse(localStorage.getItem("order")) || [];
 
-  const [orderedProducts, setOrderedProducts] = useState([]);
-
-  useEffect(() => {
-    alert("entro")
-    const fetchOrderedProducts = async () => {
-      
-      const db = getFirestore(app);
-      const orderIds = JSON.parse(localStorage.getItem("order")) || [];
-      
-      
-      if (orderIds.length > 0) {
-        const productsCol = collection(db, 'menu');
-        const queryRef = query(productsCol, where('id', 'in', orderIds));
-        const querySnapshot = await getDocs(queryRef);
-        // Actualizar el estado con los productos obtenidos
-        const fetchedProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        alert(fetchedProducts)
-        setOrderedProducts(fetchedProducts);
-      }
-    };
-
-    fetchOrderedProducts();
-  }, []);
+  // Filtramos los productos basándonos en los IDs guardados en localStorage
+  const orderedProducts = orderIds.map(id => products.find(product => product.id === id)).filter(product => product != null);
 
   return (
     <div className="cart-modal">
@@ -40,15 +19,11 @@ function CartModal({ onClose }) {
             {orderedProducts.map((product) => (
               <li className="product" key={product.id}>
                 <div className="product-image">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="product-img"
-                  />
+                  <img src={product.image} alt={product.title} className="product-img" />
                 </div>
                 <div className="product-text">
                   <h4 className="product-title">{product.title}</h4>
-                  <p className="product-description">{product.descripcion}</p> {/* Asegúrate de que la propiedad es 'description' y no 'descripcion' en tu base de datos */}
+                  <p className="product-description">{product.description}</p>
                   <p className="product-prize">
                     Precio: ${product.prize.toFixed(2)}
                   </p>
@@ -63,6 +38,6 @@ function CartModal({ onClose }) {
       )}
     </div>
   );
-} 
+}
 
 export default CartModal;
