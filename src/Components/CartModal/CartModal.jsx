@@ -114,7 +114,7 @@ function CartModal({ onClose }) {
 
   return (
     <div className="cart-modal">
-      <button onClick={onClose}>Cerrar</button>
+      <p className="exit-modal" onClick={onClose}>X</p>
       <h3 className="order-title">Tu Pedido</h3>
       {orderedProducts.length > 0 ? (
         <>

@@ -18,6 +18,14 @@
     font-weight: 300;
 }
 
+.exit-modal {
+    font-weight: 600;
+}
+
+.exit-modal:hover {
+    font-weight: 900;
+}
+
 .order-title {
     text-align: center;
     margin: 20px;
@@ -27,19 +35,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-
+    justify-content: space-between;
 }
 
-.product {
+li.product {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content:center;
-    width: 80%;
-    margin: 5px;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px;
     border-bottom: 1px gray solid;
-    
+}
+
+.product-text {
+    width: 90%
 }
 
 .btn-borrar {
@@ -50,14 +60,12 @@
 
 }
 
-.eliminar-item{
+.eliminar-item {}
 
-}
-
-.subtotal{
+.subtotal {
     display: flex;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content:end;
+    justify-content: end;
 }

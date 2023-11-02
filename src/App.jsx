@@ -35,6 +35,15 @@ function App() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    // Reiniciar el contador del carrito
+    setOrderCount(0); // Asegúrate de que tienes una función `setOrderCount`
+
+    // Vaciar localStorage
+    localStorage.removeItem('order');
+  }, []); 
+
+  
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
