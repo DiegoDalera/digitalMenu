@@ -11,13 +11,17 @@ function ItemList({ category, onAddToOrder }) {
     ? products.filter((product) => product.category === category)
     : products;
 
-  const handleAddToOrder = (productId) => {
-    const currentOrder = JSON.parse(localStorage.getItem("order")) || [];
-    currentOrder.push(productId);
-    localStorage.setItem("order", JSON.stringify(currentOrder));
-    onAddToOrder();
-  };
-
+    const handleAddToOrder = (productId) => {
+      const currentOrder = JSON.parse(localStorage.getItem('order')) || [];
+      const newItem = {
+        id: productId,
+        uniqueId: Date.now() // ID unico 
+      };
+      currentOrder.push(newItem);
+      localStorage.setItem('order', JSON.stringify(currentOrder));
+      onAddToOrder();
+    };
+    
   return (
     <div className="item-list">
       {filteredProducts.map((product) => (
