@@ -3,11 +3,11 @@ import Cart from "../Cart/Cart";
 import Logo from "../Logo/Logo";
 import './TopBar.css';
 
-function TopBar({ orderCount, onCartClick }) {
+function TopBar() {
   return (
     <div className="topBar">
       <Logo />
-      <Cart orderCount={orderCount} onCartClick={onCartClick} />
+      <Cart  />
     </div>
   );
 }
