@@ -4,19 +4,19 @@ import { useProducts } from "../Hooks/ProductsContext";
 import "./CartModal.css";
 
 function CartModal() {
+  const { cartProducts, removeFromCart, hideCartModal } = useProducts(); // Utiliza el contexto
 
-  const { cartProducts, removeFromCart, hideCartModal } = useProducts();// Utiliza el contexto
-
-
-  // Calcular el subtotal sumando el precio de cada producto
+  // Calcula  el subtotal sumando el precio de cada producto
   const subtotal = cartProducts.reduce(
-    (total, product) => total + product.prize, 
+    (total, product) => total + product.prize,
     0
   );
 
   return (
     <div className="cart-modal">
-      <p className="exit-modal" onClick={hideCartModal}>X</p>
+      <p className="exit-modal" onClick={hideCartModal}>
+        X
+      </p>
       <h3 className="order-title">Tu Pedido</h3>
       {console.log("cart products ", cartProducts)}
       {cartProducts.length > 0 ? (
@@ -45,7 +45,23 @@ function CartModal() {
           <div className="subtotal">
             <h5>Subtotal: ${subtotal.toFixed(2)}</h5>
           </div>
-          <button className="checkout-button">Proceder al Pago</button>
+          <div className="comentarios">
+            <textarea name="textarea" className="comentarios-text" rows="10">
+              Por Indicanos ....
+            </textarea>
+          </div>
+
+          <div className="table-content">
+            <label htmlFor="num-table">N de Mesa:</label>
+            <input
+              className="num-table"
+              type="number"
+              id="num-table"
+              name="num-table"
+            />
+            <button className="btn-pago">Finalizar Pedido</button>
+          </div>
+          
         </>
       ) : (
         <p>Tu carrito está vacío.</p>
@@ -55,11 +71,3 @@ function CartModal() {
 }
 
 export default CartModal;
-
-
-
-
-
-
-
-

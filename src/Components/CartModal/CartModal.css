@@ -60,12 +60,61 @@ li.product {
 
 }
 
-.eliminar-item {}
-
 .subtotal {
     display: flex;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: end;
+    margin:20px;
 }
+
+.comentarios-text{
+    width: 100%;
+    margin:20px;
+}
+
+.table-content{
+    display: flex;
+    justify-content: space-around;
+}
+.num-table{
+    width: 50px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.btn-pago {
+    width: 130px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    z-index: 0;
+    background: #fff;
+    border: 2px solid #212529;
+    color: #212529;
+  }
+  .btn-pago:hover {
+    color: #fff;
+  }
+  .btn-pago:hover:after {
+    width: 100%;
+  }
+  .btn-pago:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    transition: all 0.3s ease;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: #212529;
+  }
+  
