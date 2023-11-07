@@ -8,21 +8,21 @@ export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 
 export const ProductsProvider = ({ children }) => {
-  
+
   const [products, setProducts] = useState([]);
   const [orderCount, setOrderCount] = useState(0);
   const [cartProducts, setCartProducts] = useState([]);
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
 
-
   //carga los productes de storage
   useEffect(() => {
     const savedCartProducts =
       JSON.parse(localStorage.getItem("cartProducts")) || [];
-    setCartProducts(savedCartProducts);
+      setCartProducts(savedCartProducts);
+      setOrderCount(savedCartProducts.length);
   }, []);
 
-  
+
   //Carga los productos desde Firebase
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,6 +35,7 @@ export const ProductsProvider = ({ children }) => {
           ...doc.data(),
         }));
         setProducts(fetchedProducts);
+        console.log("productos cargados ", fetchedProducts)
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -43,33 +44,28 @@ export const ProductsProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
-  // Restablecer el contador y el carrito cuando se monta el componente por primer vez
-  useEffect(() => {
-    setOrderCount(0);
-    setCartProducts([]);
-    localStorage.removeItem("order");
-  }, []);
+ 
+  //Agrega productos a Cart
+  const generateUniqueId = () =>
+    Math.random().toString(36).substring(2) + Date.now().toString(36);
 
+  const addToCart = (product) => {
+    const newCartProduct = {
+      ...product,
+      uniqueId: generateUniqueId(), // Asegura de que cada producto tenga un identificador único al ser añadido
+    };
 
-//Agrega productos a Cart
-const generateUniqueId = () => Math.random().toString(36).substring(2) + Date.now().toString(36);
-
-const addToCart = (product) => {
-  const newCartProduct = {
-    ...product,
-    uniqueId: generateUniqueId() // Asegura de que cada producto tenga un identificador único al ser añadido
+    const newCartProducts = [...cartProducts, newCartProduct];
+    setCartProducts(newCartProducts);
+    setOrderCount(newCartProducts.length);
+    localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
-  
-  const newCartProducts = [...cartProducts, newCartProduct];
-  setCartProducts(newCartProducts);
-  setOrderCount(newCartProducts.length);
-  localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
-};
-
 
   //Elimina productos a Cart
   const removeFromCart = (productId) => {
-    const newCartProducts = cartProducts.filter((p) => p.uniqueId !== productId);
+    const newCartProducts = cartProducts.filter(
+      (p) => p.uniqueId !== productId
+    );
     setCartProducts(newCartProducts);
     setOrderCount(newCartProducts.length);
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
@@ -84,7 +80,7 @@ const addToCart = (product) => {
   const hideCartModal = () => {
     setIsCartModalVisible(false);
   };
-  
+
   const value = {
     products,
     setProducts,
@@ -96,7 +92,7 @@ const addToCart = (product) => {
     removeFromCart,
     isCartModalVisible,
     showCartModal,
-    hideCartModal
+    hideCartModal,
   };
 
   return (
