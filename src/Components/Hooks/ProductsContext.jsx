@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, doc, deleteDoc  } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
 export const ProductsContext = createContext(null);
@@ -13,6 +13,23 @@ export const ProductsProvider = ({ children }) => {
   const [orderCount, setOrderCount] = useState(0);
   const [cartProducts, setCartProducts] = useState([]);
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
+
+  //Carga el  producto  de la base
+
+  const removeFromDatabase = async (productId) => {
+    try {
+      const db = getFirestore(firebaseApp);
+      const productRef = doc(db, "menu", productId);
+      await deleteDoc(productRef);
+      console.log(`Producto ${productId} eliminado con éxito`);
+      
+      // Actualizar el estado local después de eliminar el producto de Firebase
+      setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+    }
+  };
+
 
   //carga los productes de storage
   useEffect(() => {
@@ -93,6 +110,7 @@ export const ProductsProvider = ({ children }) => {
     isCartModalVisible,
     showCartModal,
     hideCartModal,
+    removeFromDatabase
   };
 
   return (
