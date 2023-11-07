@@ -5,7 +5,6 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
 export const ProductsContext = createContext(null);
-
 export const useProducts = () => useContext(ProductsContext);
 
 export const ProductsProvider = ({ children }) => {
@@ -16,7 +15,6 @@ export const ProductsProvider = ({ children }) => {
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
 
 
-  
   //carga los productes de storage
   useEffect(() => {
     const savedCartProducts =
@@ -24,6 +22,7 @@ export const ProductsProvider = ({ children }) => {
     setCartProducts(savedCartProducts);
   }, []);
 
+  
   //Carga los productos desde Firebase
   useEffect(() => {
     const fetchProducts = async () => {
@@ -44,7 +43,7 @@ export const ProductsProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
-  // Restablecer el contador y el carrito cuando se monta el componente por primer ves
+  // Restablecer el contador y el carrito cuando se monta el componente por primer vez
   useEffect(() => {
     setOrderCount(0);
     setCartProducts([]);
@@ -52,7 +51,7 @@ export const ProductsProvider = ({ children }) => {
   }, []);
 
 
-//agrega productos a Cart
+//Agrega productos a Cart
 const generateUniqueId = () => Math.random().toString(36).substring(2) + Date.now().toString(36);
 
 const addToCart = (product) => {
@@ -68,7 +67,7 @@ const addToCart = (product) => {
 };
 
 
-  //elimina productos a Cart
+  //Elimina productos a Cart
   const removeFromCart = (productId) => {
     const newCartProducts = cartProducts.filter((p) => p.uniqueId !== productId);
     setCartProducts(newCartProducts);
