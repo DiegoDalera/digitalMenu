@@ -2,16 +2,17 @@ import { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { ProductsContext } from "../Hooks/ProductsContext";
+import  ModalAddProduct  from "./ModalAddEditProduct";
 
 const Administracion = () => {
-  const { products, removeFromDatabase } = useContext(ProductsContext); // Asumiendo que tienes una función removeFromCart en tu contexto
+  const { products, removeFromDatabase, openEditModal } = useContext(ProductsContext); // Asumiendo que tienes una función removeFromCart en tu contexto
 
   const handleDelete = (productId) => {
     removeFromDatabase(productId);
   };
 
   const handleEdit = (productId) => {
-    console.log("Editar producto:", productId);
+    openEditModal(productId);
   };
 
   return (
@@ -19,12 +20,14 @@ const Administracion = () => {
       <div className="admin-title">
         <h2>Administración</h2>
       </div>
+      <div className="add-product">
+        <Button variant="success">Agregar +</Button>
+      </div>
       <div className="admin-table">
         <Table responsive="sm" size="string">
           <thead>
             <tr>
               <th>#</th>
-              {/* <th>ID</th> */}
               <th>Categoría</th>
               <th>Título</th>
               <th>Descripción</th>
@@ -37,7 +40,6 @@ const Administracion = () => {
             {products.map((product, index) => (
               <tr key={product.id}>
                 <td>{index + 1}</td>
-                {/* <td>{product.id}</td> */}
                 <td>{product.category}</td>
                 <td>{product.title}</td>
                 <td>{product.descripcion}</td>
@@ -56,10 +58,8 @@ const Administracion = () => {
                   >
                     Eliminar
                   </Button>{" "}
-                  <Button
-                    variant="primary"
-                    onClick={() => handleEdit(product.id)}
-                  >
+
+                  <Button variant="primary" onClick={() => handleEdit(product.id)}>
                     Editar
                   </Button>
                 </td>
@@ -68,6 +68,7 @@ const Administracion = () => {
           </tbody>
         </Table>
       </div>
+      <ModalAddProduct />
     </div>
   );
 };

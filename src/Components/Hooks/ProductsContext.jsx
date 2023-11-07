@@ -1,7 +1,13 @@
 /* eslint-disable react/prop-types */
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { getFirestore, collection, getDocs, doc, deleteDoc  } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
 export const ProductsContext = createContext(null);
@@ -9,12 +15,32 @@ export const useProducts = () => useContext(ProductsContext);
 
 export const ProductsProvider = ({ children }) => {
 
+  //Edicion de productos
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+
+  //Productos en memoria
   const [products, setProducts] = useState([]);
+  //Contador de productos en pedido
   const [orderCount, setOrderCount] = useState(0);
+  //productos en la cart
   const [cartProducts, setCartProducts] = useState([]);
+  //modal Cart
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
 
-  //Carga el  producto  de la base
+  // Función para abrir el modal con los datos del producto a editar
+  const openEditModal = (productID) => {
+    console.log("dentro del context ",productID)
+    setEditingProduct(productID);
+    setIsEditModalVisible(true);
+    console.log(isEditModalVisible)
+  };
+
+  // Función para cerrar el modal de edición
+  const closeEditModal = () => {
+    setEditingProduct(null);
+    setIsEditModalVisible(false);
+  };
 
   const removeFromDatabase = async (productId) => {
     try {
@@ -22,23 +48,23 @@ export const ProductsProvider = ({ children }) => {
       const productRef = doc(db, "menu", productId);
       await deleteDoc(productRef);
       console.log(`Producto ${productId} eliminado con éxito`);
-      
+
       // Actualizar el estado local después de eliminar el producto de Firebase
-      setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
+      setProducts((prevProducts) =>
+        prevProducts.filter((p) => p.id !== productId)
+      );
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
     }
   };
 
-
   //carga los productes de storage
   useEffect(() => {
     const savedCartProducts =
       JSON.parse(localStorage.getItem("cartProducts")) || [];
-      setCartProducts(savedCartProducts);
-      setOrderCount(savedCartProducts.length);
+    setCartProducts(savedCartProducts);
+    setOrderCount(savedCartProducts.length);
   }, []);
-
 
   //Carga los productos desde Firebase
   useEffect(() => {
@@ -52,7 +78,7 @@ export const ProductsProvider = ({ children }) => {
           ...doc.data(),
         }));
         setProducts(fetchedProducts);
-        console.log("productos cargados ", fetchedProducts)
+        console.log("productos cargados ", fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -61,7 +87,6 @@ export const ProductsProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
- 
   //Agrega productos a Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -110,7 +135,11 @@ export const ProductsProvider = ({ children }) => {
     isCartModalVisible,
     showCartModal,
     hideCartModal,
-    removeFromDatabase
+    removeFromDatabase,
+    editingProduct,
+    openEditModal,
+    closeEditModal,
+    isEditModalVisible,
   };
 
   return (
