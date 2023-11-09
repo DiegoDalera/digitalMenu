@@ -2,17 +2,19 @@ import { useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { ProductsContext } from "../Hooks/ProductsContext";
-import  ModalAddProduct  from "./ModalAddEditProduct";
+import ModalAddProduct from "./ModalAddProduct"
+import ModalAddEditProduct from "./ModalAddEditProduct";
 
 const Administracion = () => {
-  const { products, removeFromDatabase, openEditModal } = useContext(ProductsContext); // Asumiendo que tienes una función removeFromCart en tu contexto
+  const { products, removeFromDatabase, openEditModal, handleShowAddModal } =
+    useContext(ProductsContext); // Asumiendo que tienes una función removeFromCart en tu contexto
 
   const handleDelete = (productId) => {
     removeFromDatabase(productId);
   };
 
-  const handleEdit = (productId) => {
-    openEditModal(productId);
+  const handleEdit = (product) => {
+    openEditModal(product);
   };
 
   return (
@@ -21,7 +23,9 @@ const Administracion = () => {
         <h2>Administración</h2>
       </div>
       <div className="add-product">
-        <Button variant="success">Agregar +</Button>
+        <Button variant="success" onClick={handleShowAddModal}>
+          Agregar +
+        </Button>
       </div>
       <div className="admin-table">
         <Table responsive="sm" size="string">
@@ -58,8 +62,7 @@ const Administracion = () => {
                   >
                     Eliminar
                   </Button>{" "}
-
-                  <Button variant="primary" onClick={() => handleEdit(product.id)}>
+                  <Button variant="primary" onClick={() => handleEdit(product)}>
                     Editar
                   </Button>
                 </td>
@@ -69,6 +72,7 @@ const Administracion = () => {
         </Table>
       </div>
       <ModalAddProduct />
+      <ModalAddEditProduct />
     </div>
   );
 };

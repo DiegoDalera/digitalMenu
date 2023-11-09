@@ -7,6 +7,7 @@ import {
   getDocs,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
@@ -15,8 +16,14 @@ export const useProducts = () => useContext(ProductsContext);
 
 export const ProductsProvider = ({ children }) => {
 
+  //Agregar productos
+  //const [productsBase, setProductsBase] = useState([]);
+  
+  const [showAddModal, setShowAddModal] = useState(false);
+
   //Edicion de productos
   const [editingProduct, setEditingProduct] = useState(null);
+
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   //Productos en memoria
@@ -28,12 +35,23 @@ export const ProductsProvider = ({ children }) => {
   //modal Cart
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
 
+
+  // Lógica para agregar el producto a la base de datos
+  // const addProductToDatabase = (product) => {
+
+  // };
+
+  // Lógica para mostrar ModalAddProduct
+  const handleShowAddModal = () => setShowAddModal(true);
+  const handleCloseAddModal = () => setShowAddModal(false);
+
+
   // Función para abrir el modal con los datos del producto a editar
-  const openEditModal = (productID) => {
-    console.log("dentro del context ",productID)
-    setEditingProduct(productID);
+  const openEditModal = (product) => {
+    console.log("dentro del context ", product);
+    setEditingProduct(product);
     setIsEditModalVisible(true);
-    console.log(isEditModalVisible)
+    console.log(isEditModalVisible);
   };
 
   // Función para cerrar el modal de edición
@@ -42,6 +60,36 @@ export const ProductsProvider = ({ children }) => {
     setIsEditModalVisible(false);
   };
 
+  // Función para editar un elemento en la colección "menu"
+  async function editFromDatabase(
+    id,
+    category,
+    description,
+    image,
+    prize,
+    title
+  ) {
+    try {
+      // Referencia al documento en la colección "menu" con el ID proporcionado
+      const db = getFirestore(firebaseApp);
+      const menuRef = doc(db, "menu", id);
+
+      // Actualiza el documento con los nuevos datos
+      await updateDoc(menuRef, {
+        category: category,
+        descripcion: description,
+        image: image,
+        prize: prize,
+        title: title,
+      });
+
+      console.log(`Document with ID ${id} has been updated.`);
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  }
+
+  // Elimina producto desde firebase
   const removeFromDatabase = async (productId) => {
     try {
       const db = getFirestore(firebaseApp);
@@ -140,6 +188,12 @@ export const ProductsProvider = ({ children }) => {
     openEditModal,
     closeEditModal,
     isEditModalVisible,
+    editFromDatabase,
+    //addProductToDatabase,
+    showAddModal,
+    handleShowAddModal,
+    handleCloseAddModal,
+    //productsBase
   };
 
   return (

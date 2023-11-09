@@ -1,37 +1,96 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { ProductsContext } from "../Hooks/ProductsContext";
+import Form from "react-bootstrap/Form";
 
 const ModalAddProduct = () => {
 
-  const { editingProduct, closeEditModal, isEditModalVisible } =
-    useContext(ProductsContext);
+  const { addProductToDatabase, showAddModal , handleCloseAddModal } = useContext(ProductsContext);
 
-   if (!editingProduct) {
-     return null; // No renderiza nada si no hay un producto a editar
-   }
+
+// Estado para manejar los valores del formulario
+const [productToAdd, setProductToAdd] = useState({
+  title: "",
+  descripcion: "",
+  category: "",
+  prize: "",
+  image: "",
+});
+
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setProductToAdd((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+};
+
+  // Función para manejar la adición del producto
+  const handleAdd = (event) => {
+    event.preventDefault();
+    addProductToDatabase(productToAdd);
+    handleCloseAddModal(); // Cierra el modal después de agregar el producto
+  };
 
   return (
     <Modal
-      show={isEditModalVisible} // Controla la visibilidad con el estado isEditModalVisible
-      onHide={closeEditModal}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
+    show={showAddModal}
+    onHide={handleCloseAddModal}
+    size="lg"
+    aria-labelledby="contained-modal-title-vcenter"
+    centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Editar Producto
+          Agregar  Producto
         </Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
-        {/* Aquí irían los inputs del formulario con los datos del producto a editar */}
-        <h4>{editingProduct.title}</h4>
-        {/* Más campos para editar el producto */}
+        <Form onSubmit={handleAdd}>
+          <Form.Control
+            size="text"
+            type="text"
+            name="title"
+            onChange={handleChange}
+          />
+          <br />
+          <Form.Control
+            type="text"
+            name="descripcion"
+          Cambiado a productToEdit
+            onChange={handleChange}
+          />
+          <br />
+          <Form.Control
+            size="text"
+            name="category"
+          Cambiado a productToEdit
+            onChange={handleChange}
+          />
+          <br />
+          <Form.Control
+            size="text"
+            type="text"
+            name="prize"
+           
+            onChange={handleChange}
+          />
+          <br />
+
+            <Form.Control
+            type="file"
+            name="image"
+            onChange={handleChange}
+          />
+          <br />
+          <Button type="button">
+            Cerrar
+          </Button>
+          <Button type="submit">Agregar</Button>
+        </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={closeEditModal}>Cerrar</Button>
-      </Modal.Footer>
     </Modal>
   );
 };
