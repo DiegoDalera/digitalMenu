@@ -85,10 +85,10 @@ const handleChange = (e) => {
             onChange={handleChange}
           />
           <br />
-          <Button type="button">
+          <Button type="button" onClick={handleCloseAddModal}>
             Cerrar
           </Button>
-          <Button type="submit">Agregar</Button>
+          <Button type="submit" onClick={addProductToDatabase}>Agregar</Button>
         </Form>
       </Modal.Body>
     </Modal>

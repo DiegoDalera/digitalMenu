@@ -8,22 +8,20 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  addDoc
 } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
 export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
-
 export const ProductsProvider = ({ children }) => {
 
   //Agregar productos
   //const [productsBase, setProductsBase] = useState([]);
-  
   const [showAddModal, setShowAddModal] = useState(false);
 
   //Edicion de productos
   const [editingProduct, setEditingProduct] = useState(null);
-
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   //Productos en memoria
@@ -35,23 +33,32 @@ export const ProductsProvider = ({ children }) => {
   //modal Cart
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
 
-
   // Lógica para agregar el producto a la base de datos
-  // const addProductToDatabase = (product) => {
+const addProductToDatabase = async (product) => {
+  try {
+    const db = getFirestore(firebaseApp);
+    const productsCol = collection(db, "menu"); 
 
-  // };
+    // Firestore genera un ID único para el nuevo documento
+    const docRef = await addDoc(productsCol, product);
+    console.log(`Producto con ID ${docRef.id} agregado con éxito`);
 
-  // Lógica para mostrar ModalAddProduct
+    // Opcional: Actualizar el estado local después de agregar el producto a Firebase
+    setProducts((prevProducts) => [...prevProducts, { ...product, id: docRef.id }]);
+  } catch (error) {
+    console.error("Error al agregar el producto a la base de datos:", error);
+  }
+};
+
+
+  // Lógica para mostrar y ocultar ModalAddProduct
   const handleShowAddModal = () => setShowAddModal(true);
   const handleCloseAddModal = () => setShowAddModal(false);
 
-
   // Función para abrir el modal con los datos del producto a editar
   const openEditModal = (product) => {
-    console.log("dentro del context ", product);
     setEditingProduct(product);
     setIsEditModalVisible(true);
-    console.log(isEditModalVisible);
   };
 
   // Función para cerrar el modal de edición
@@ -135,7 +142,8 @@ export const ProductsProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
-  //Agrega productos a Cart
+
+  //Agrega productos a la Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
 
@@ -161,7 +169,7 @@ export const ProductsProvider = ({ children }) => {
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
 
-  //Muestra el Modal
+  //Muestra el Modal cart
   const showCartModal = () => {
     setIsCartModalVisible(true);
   };
@@ -171,6 +179,7 @@ export const ProductsProvider = ({ children }) => {
     setIsCartModalVisible(false);
   };
 
+  //Value
   const value = {
     products,
     setProducts,
@@ -189,7 +198,7 @@ export const ProductsProvider = ({ children }) => {
     closeEditModal,
     isEditModalVisible,
     editFromDatabase,
-    //addProductToDatabase,
+    addProductToDatabase,
     showAddModal,
     handleShowAddModal,
     handleCloseAddModal,
