@@ -46,7 +46,7 @@ function CartModal() {
             <h5>Subtotal: ${subtotal.toFixed(2)}</h5>
           </div>
           <div className="comentarios">
-            <textarea name="textarea" className="comentarios-text" rows="10">
+            <textarea name="textarea" className="comentarios-text" rows="5">
               Por Indicanos ....
             </textarea>
           </div>
@@ -61,7 +61,6 @@ function CartModal() {
             />
             <button className="btn-pago">Finalizar Pedido</button>
           </div>
-          
         </>
       ) : (
         <p>Tu carrito está vacío.</p>

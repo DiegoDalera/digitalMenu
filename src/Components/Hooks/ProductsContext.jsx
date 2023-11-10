@@ -16,8 +16,12 @@ export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
 
+
+
+
+
+  
   //Agregar productos
-  //const [productsBase, setProductsBase] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
   //Edicion de productos
@@ -32,6 +36,7 @@ export const ProductsProvider = ({ children }) => {
   const [cartProducts, setCartProducts] = useState([]);
   //modal Cart
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
+
 
   // Lógica para agregar el producto a la base de datos
 const addProductToDatabase = async (product) => {
@@ -49,7 +54,6 @@ const addProductToDatabase = async (product) => {
     console.error("Error al agregar el producto a la base de datos:", error);
   }
 };
-
 
   // Lógica para mostrar y ocultar ModalAddProduct
   const handleShowAddModal = () => setShowAddModal(true);
@@ -113,7 +117,7 @@ const addProductToDatabase = async (product) => {
     }
   };
 
-  //carga los productes de storage
+  //carga los productos de storage
   useEffect(() => {
     const savedCartProducts =
       JSON.parse(localStorage.getItem("cartProducts")) || [];
@@ -202,7 +206,7 @@ const addProductToDatabase = async (product) => {
     showAddModal,
     handleShowAddModal,
     handleCloseAddModal,
-    //productsBase
+    
   };
 
   return (

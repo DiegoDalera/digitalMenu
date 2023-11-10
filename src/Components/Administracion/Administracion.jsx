@@ -4,10 +4,11 @@ import Button from "react-bootstrap/Button";
 import { ProductsContext } from "../Hooks/ProductsContext";
 import ModalAddProduct from "./ModalAddProduct"
 import ModalAddEditProduct from "./ModalAddEditProduct";
+import ModalLoginAdmin from "./ModalLoginAdmin";
 
 const Administracion = () => {
   const { products, removeFromDatabase, openEditModal, handleShowAddModal } =
-    useContext(ProductsContext); // Asumiendo que tienes una función removeFromCart en tu contexto
+    useContext(ProductsContext); 
 
   const handleDelete = (productId) => {
     removeFromDatabase(productId);
@@ -73,6 +74,7 @@ const Administracion = () => {
       </div>
       <ModalAddProduct />
       <ModalAddEditProduct />
+      <ModalLoginAdmin />
     </div>
   );
 };
