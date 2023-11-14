@@ -9,8 +9,7 @@
 }
 
 .item {
-  flex-basis: calc(30% - 2rem);
-  /* Ajusta este valor según tus necesidades */
+  width:30%;
   border: 1px solid #ddd;
   padding: 1rem;
   border-radius: 8px;

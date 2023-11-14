@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useProducts } from "../Hooks/ProductsContext";
 import Item from "../Item/Item";
 import "./ItemList.css";
 
-function ItemList({ category, onAddToOrder }) {
+function ItemList({ category }) {
 
   const { products } = useProducts(); // Usamos el hook para acceder a los productos del contexto
   

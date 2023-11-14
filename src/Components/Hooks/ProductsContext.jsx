@@ -17,30 +17,22 @@ export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
 
+//AUtentificacion a administracion
+const [isAuthenticated, setIsAuthenticated] = useState(false);
+const [showLoginModal, setShowLoginModal] = useState(true);
 
-  const uploadImageAndAddProduct = async (product, imageFile) => {
-    try {
-      // Subir la imagen a Firebase Storage
-      const storageRef = ref(storage, `images/${imageFile.name}`);
-      const snapshot = await uploadBytes(storageRef, imageFile);
+const handleLogin = (username, password) => {
+  console.log(username, password)
+  // Aquí implementas tu lógica de autenticación
+  if (username === "admin@gmail.com" && password === "asdfghjk") {
+    setIsAuthenticated(true);
+    setShowLoginModal(false);
+  } else {
+    alert("Credenciales incorrectas");
+  }
+};
 
-      // Obtener la URL de la imagen
-      const imageUrl = await getDownloadURL(snapshot.ref);
-
-      // Guardar la URL y los datos del producto en Firestore
-      const productRef = doc(db, 'menu');
-      await setDoc(productRef, {
-        ...product,
-        imageUrl
-      });
-
-      console.log('Producto añadido con éxito');
-    } catch (error) {
-      console.error('Error al subir la imagen y añadir el producto: ', error);
-    }
-  };
-
-  //Agregar productos
+  //Agregar productos modal
   const [showAddModal, setShowAddModal] = useState(false);
 
   //Edicion de productos
@@ -59,6 +51,33 @@ export const ProductsProvider = ({ children }) => {
   // Lógica para mostrar y ocultar ModalAddProduct
   const handleShowAddModal = () => setShowAddModal(true);
   const handleCloseAddModal = () => setShowAddModal(false);
+
+  // LOgica para subir el producto a firestore
+
+  const uploadImageAndAddProduct = async (product, imageFile) => {
+    try {
+      // Subir la imagen a Firebase Storage
+      const storageRef = ref(storage, `images/${imageFile.name}`);
+      const snapshot = await uploadBytes(storageRef, imageFile);
+  
+      // Obtener la URL de la imagen
+      const imageUrl = await getDownloadURL(snapshot.ref);
+  
+      // Crear una referencia a un nuevo documento en la colección 'menu' con un ID automático
+      const productRef = doc(collection(db, 'menu'));
+  
+      // Guardar la URL de la imagen y los datos del producto en Firestore
+      await setDoc(productRef, {
+        ...product,
+        image:imageUrl
+      });
+  
+      console.log('Producto añadido con éxito');
+    } catch (error) {
+      console.error('Error al subir la imagen y añadir el producto: ', error);
+    }
+  };
+  
 
   // Función para abrir el modal con los datos del producto a editar
   const openEditModal = (product) => {
@@ -206,6 +225,10 @@ export const ProductsProvider = ({ children }) => {
     showAddModal,
     handleShowAddModal,
     handleCloseAddModal,
+    isAuthenticated,
+    showLoginModal,
+    handleLogin,
+    setShowLoginModal
   };
 
   return (

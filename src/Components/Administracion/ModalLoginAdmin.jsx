@@ -8,8 +8,6 @@ function ModalLoginAdmin() {
   const [passwordError, setpasswordError] = useState("");
   const [emailError, setemailError] = useState("");
 
-
-
   const [showModal, setShowModal] = useState(true);
 
   // Función ocultar el modal
@@ -30,10 +28,10 @@ function ModalLoginAdmin() {
       formIsValid = true;
     }
 
-    if (!password.match(/^[a-zA-Z]{8,22}$/)) {
+    if (!password.match(/^[a-zA-Z]{6,22}$/)) {
       formIsValid = false;
       setpasswordError(
-        "Only Letters and length must best min 8 Chracters and Max 22 Chracters"
+        "Only Letters and length must best min 6 Chracters and Max 22 Chracters"
       );
       return false;
     } else {
