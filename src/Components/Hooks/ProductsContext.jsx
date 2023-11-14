@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
+import { createContext, useState, useContext,useEffect } from "react";
+import { storage, db } from "../../Data/firebaseApp";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
-import { createContext, useContext, useState, useEffect } from "react";
 import {
   getFirestore,
   collection,
   getDocs,
-  doc,
   deleteDoc,
   updateDoc,
-  addDoc
 } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
@@ -17,10 +18,28 @@ export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
 
 
+  const uploadImageAndAddProduct = async (product, imageFile) => {
+    try {
+      // Subir la imagen a Firebase Storage
+      const storageRef = ref(storage, `images/${imageFile.name}`);
+      const snapshot = await uploadBytes(storageRef, imageFile);
 
+      // Obtener la URL de la imagen
+      const imageUrl = await getDownloadURL(snapshot.ref);
 
+      // Guardar la URL y los datos del producto en Firestore
+      const productRef = doc(db, 'menu');
+      await setDoc(productRef, {
+        ...product,
+        imageUrl
+      });
 
-  
+      console.log('Producto añadido con éxito');
+    } catch (error) {
+      console.error('Error al subir la imagen y añadir el producto: ', error);
+    }
+  };
+
   //Agregar productos
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -36,24 +55,6 @@ export const ProductsProvider = ({ children }) => {
   const [cartProducts, setCartProducts] = useState([]);
   //modal Cart
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
-
-
-  // Lógica para agregar el producto a la base de datos
-const addProductToDatabase = async (product) => {
-  try {
-    const db = getFirestore(firebaseApp);
-    const productsCol = collection(db, "menu"); 
-
-    // Firestore genera un ID único para el nuevo documento
-    const docRef = await addDoc(productsCol, product);
-    console.log(`Producto con ID ${docRef.id} agregado con éxito`);
-
-    // Opcional: Actualizar el estado local después de agregar el producto a Firebase
-    setProducts((prevProducts) => [...prevProducts, { ...product, id: docRef.id }]);
-  } catch (error) {
-    console.error("Error al agregar el producto a la base de datos:", error);
-  }
-};
 
   // Lógica para mostrar y ocultar ModalAddProduct
   const handleShowAddModal = () => setShowAddModal(true);
@@ -146,7 +147,6 @@ const addProductToDatabase = async (product) => {
     fetchProducts();
   }, []);
 
-
   //Agrega productos a la Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -202,11 +202,10 @@ const addProductToDatabase = async (product) => {
     closeEditModal,
     isEditModalVisible,
     editFromDatabase,
-    addProductToDatabase,
+    uploadImageAndAddProduct,
     showAddModal,
     handleShowAddModal,
     handleCloseAddModal,
-    
   };
 
   return (

@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { ProductsContext } from "../Hooks/ProductsContext";
-import Form from "react-bootstrap/Form";
 
 const ModalAddProduct = () => {
-  const { addProductToDatabase, showAddModal, handleCloseAddModal } =
-    useContext(ProductsContext);
+  const { uploadImageAndAddProduct, showAddModal, handleCloseAddModal } = useContext(ProductsContext);
 
   // Estado para manejar los valores del formulario
   const [productToAdd, setProductToAdd] = useState({
@@ -16,7 +14,9 @@ const ModalAddProduct = () => {
     image: "",
   });
 
-  
+  const [imageProducto, setImageProducto] = useState(null);
+
+  // Maneja los cambios en los campos de texto del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedValue = name === "prize" ? Number(value) : value;
@@ -25,20 +25,33 @@ const ModalAddProduct = () => {
       [name]: updatedValue,
     }));
   };
-  
+
+  // Maneja los cambios en el input de archivo de imagen
+  const handleImageChange = (e) => {
+    if (e.target.files.length > 0) {
+      setImageProducto(e.target.files[0]);
+    }
+  };
 
   // Función para manejar la adición del producto
-  const handleAdd = (event) => {
+  const handleAdd = async (event) => {
     event.preventDefault();
+    if (!imageProducto) {
+      console.error('No hay imágenes para subir');
+      return;
+    }
+
     const productWithImage = {
       ...productToAdd,
-      prize: Number(productToAdd.prize), 
-      image: "/img/items/ensalada-cesar.jpg" 
+      prize: Number(productToAdd.prize),
     };
-    addProductToDatabase(productWithImage);
-    handleCloseAddModal(); 
+
+    // Subir la imagen y añadir el producto
+    await uploadImageAndAddProduct(productWithImage, imageProducto);
+
+    handleCloseAddModal();
   };
-  
+
   return (
     <Modal
       show={showAddModal}
@@ -55,7 +68,7 @@ const ModalAddProduct = () => {
 
       <Modal.Body>
         <Form onSubmit={handleAdd}>
-          <Form.Label htmlFor="product">Password</Form.Label>
+          <Form.Label htmlFor="product">Producto</Form.Label>
           <Form.Control
             id="product"
             size="text"
@@ -69,9 +82,6 @@ const ModalAddProduct = () => {
             id="descripcion"
             type="text"
             name="descripcion"
-            Cambiado
-            a
-            productToEdit
             onChange={handleChange}
           />
           <br />
@@ -80,9 +90,6 @@ const ModalAddProduct = () => {
             id="categoria"
             size="text"
             name="category"
-            Cambiado
-            a
-            productToEdit
             onChange={handleChange}
           />
           <br />
@@ -96,14 +103,13 @@ const ModalAddProduct = () => {
           />
           <br />
 
-          <Form.Control type="file" name="image" onChange={handleChange} />
+          <Form.Control type="file" name="image" onChange={handleImageChange} />
           <br />
+
           <Button type="button" onClick={handleCloseAddModal}>
             Cerrar
           </Button>
-          <Button type="submit">
-            Agregar
-          </Button>
+          <Button type="submit">Agregar</Button>
         </Form>
       </Modal.Body>
     </Modal>
