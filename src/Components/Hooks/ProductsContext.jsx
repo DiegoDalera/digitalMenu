@@ -3,6 +3,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { storage, db } from "../../Data/firebaseApp";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { serverTimestamp, addDoc } from 'firebase/firestore';
 
 import {
   getFirestore,
@@ -70,14 +71,14 @@ export const ProductsProvider = ({ children }) => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
+
   //Productos en memoria
   const [products, setProducts] = useState([]);
   //Contador de productos en pedido
   const [orderCount, setOrderCount] = useState(0);
-  //productos en la cart
-  const [cartProducts, setCartProducts] = useState([]);
-  //modal Cart
-  const [isCartModalVisible, setIsCartModalVisible] = useState(false);
+
+ 
+  
 
   // Lógica para mostrar y ocultar ModalAddProduct
   const handleShowAddModal = () => setShowAddModal(true);
@@ -202,6 +203,11 @@ export const ProductsProvider = ({ children }) => {
     }
   }, []);
 
+
+
+   //Productos en la cart
+   const [cartProducts, setCartProducts] = useState([]);
+
   //Agrega productos a la Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -218,6 +224,7 @@ export const ProductsProvider = ({ children }) => {
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
 
+
   //Elimina productos a Cart
   const removeFromCart = (productId) => {
     const newCartProducts = cartProducts.filter(
@@ -228,6 +235,10 @@ export const ProductsProvider = ({ children }) => {
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
 
+
+  //Cart Modal
+  const [isCartModalVisible, setIsCartModalVisible] = useState(false);
+
   //Muestra el Modal cart
   const showCartModal = () => {
     setIsCartModalVisible(true);
@@ -237,9 +248,40 @@ export const ProductsProvider = ({ children }) => {
   const hideCartModal = () => {
     setIsCartModalVisible(false);
   };
+  
+//Enviar pedido
+  const sendOrder = async () => {
+    try {
+      const db = getFirestore(firebaseApp);
+      const ordersCol = collection(db, "pedidos");
+
+      const totalPrice = cartProducts.reduce((total, product) => total + product.prize, 0);
+
+  
+      const order = {
+        products: cartProducts,
+        totalPrice: totalPrice.toFixed(2),
+        timestamp: serverTimestamp(),
+      };
+  
+      await addDoc(ordersCol, order);
+  
+      clearCart();
+    } catch (error) {
+      console.error("Error al enviar el pedido:", error);
+    }
+  };
+
+  const clearCart = () => {
+    setCartProducts([])
+    localStorage.removeItem("cartProducts");
+    hideCartModal();
+  }
+
 
   //Value
   const value = {
+    sendOrder,
     products,
     setProducts,
     orderCount,

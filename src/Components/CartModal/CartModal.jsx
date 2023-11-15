@@ -2,18 +2,62 @@
 
 import { useProducts } from "../Hooks/ProductsContext";
 import "./CartModal.css";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function CartModal() {
-  const { cartProducts, removeFromCart, hideCartModal } = useProducts(); // Utiliza el contexto
+  const { isCartModalVisible, hideCartModal,cartProducts,removeFromCart,sendOrder } = useProducts();
 
-  // Calcula  el subtotal sumando el precio de cada producto
-  const subtotal = cartProducts.reduce(
-    (total, product) => total + product.prize,
-    0
-  );
-
+  const totalPrice = cartProducts.reduce((total, product) => {
+    return total + product.prize;
+  }, 0);
+  
   return (
-    <div className="cart-modal">
+    <Modal
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      show={isCartModalVisible}
+      onHide={hideCartModal}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">Tu pedido</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+
+        {cartProducts.map((product) => (
+          <li className="product" key={product.uniqueId}>
+            <div className="product-text">
+              <h4 className="product-title">{product.title}</h4>
+              <p className="product-description">{product.descripcion}</p>
+              <p className="product-prize">
+                Precio: ${product.prize.toFixed(2)}
+              </p>
+            </div>
+            <div className="btn-borrar">
+              <button
+                onClick={() => removeFromCart(product.uniqueId)}
+                className="eliminar-item"
+              >
+                Eliminar
+              </button>
+            </div>
+          </li>
+        ))}
+
+      </Modal.Body>
+      <Modal.Footer>
+      <p>Total a pagar: ${totalPrice.toFixed(2)}</p>
+        <Button onClick={hideCartModal}>Close</Button>
+        <Button onClick={sendOrder}>Enviar Orden</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+export default CartModal;
+
+/* <div className="cart-modal">
       <p className="exit-modal" onClick={hideCartModal}>
         X
       </p>
@@ -65,8 +109,4 @@ function CartModal() {
       ) : (
         <p>Tu carrito está vacío.</p>
       )}
-    </div>
-  );
-}
-
-export default CartModal;
+    </div> */

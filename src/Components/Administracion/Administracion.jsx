@@ -43,7 +43,7 @@ const Administracion = () => {
           </div>
           <div className="update-prize">
             <Button variant="success" onClick={handleUpdatePrize}>
-              Agregar +
+              Actualizar precios
             </Button>
           </div>
           <div className="admin-table">
