@@ -1,20 +1,22 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal } from "react-bootstrap";
+import { useContext } from "react";
+import { ProductsContext } from "../Hooks/ProductsContext";
 
 function ModalLoginAdmin() {
+  const {
+    showLoginModal,
+    setShowLoginModal,
+    handleLogin,
+  } = useContext(ProductsContext);
+
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [passwordError, setpasswordError] = useState("");
   const [emailError, setemailError] = useState("");
 
-  const [showModal, setShowModal] = useState(true);
-
-  // Función ocultar el modal
-  const handlehideLoginModal = () => {
-    setShowModal(false);
-  };
-
+ 
   // eslint-disable-next-line no-unused-vars
   const handleValidation = (event) => {
     let formIsValid = true;
@@ -44,13 +46,15 @@ function ModalLoginAdmin() {
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    handleValidation();
+    if (handleValidation()) {
+      handleLogin(email, password);
+    }
   };
 
   return (
     <Modal
-      show={showModal}
-      onHide={handlehideLoginModal}
+      show={showLoginModal}
+      onHide={() => setShowLoginModal(false)}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered

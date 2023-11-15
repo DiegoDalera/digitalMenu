@@ -26,11 +26,19 @@ const handleLogin = (username, password) => {
   // Aquí implementas tu lógica de autenticación
   if (username === "admin@gmail.com" && password === "asdfghjk") {
     setIsAuthenticated(true);
+    localStorage.setItem('isAuthenticated', 'true');
     setShowLoginModal(false);
   } else {
     alert("Credenciales incorrectas");
   }
 };
+
+const handleLogout = () => {
+  setIsAuthenticated(false);
+  localStorage.removeItem('isAuthenticated');
+  // Otros manejos de cierre de sesión si es necesario
+};
+
 
   //Agregar productos modal
   const [showAddModal, setShowAddModal] = useState(false);
@@ -166,6 +174,13 @@ const handleLogin = (username, password) => {
     fetchProducts();
   }, []);
 
+  //cheque si el Admin esta logueado
+  useEffect(() => {
+    const storedAuthState = localStorage.getItem('isAuthenticated');
+    if (storedAuthState === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
   //Agrega productos a la Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -228,6 +243,7 @@ const handleLogin = (username, password) => {
     isAuthenticated,
     showLoginModal,
     handleLogin,
+    handleLogout,
     setShowLoginModal
   };
 
