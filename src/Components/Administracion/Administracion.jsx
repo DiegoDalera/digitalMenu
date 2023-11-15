@@ -17,6 +17,7 @@ const Administracion = () => {
     ShowLoginModal,
     setShowLoginModal,
     isAuthenticated,
+    handleUpdatePrize
   } = useContext(ProductsContext);
 
   const handleDelete = (productId) => {
@@ -37,6 +38,11 @@ const Administracion = () => {
           </div>
           <div className="add-product">
             <Button variant="success" onClick={handleShowAddModal}>
+              Agregar +
+            </Button>
+          </div>
+          <div className="update-prize">
+            <Button variant="success" onClick={handleUpdatePrize}>
               Agregar +
             </Button>
           </div>

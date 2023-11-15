@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState, useContext,useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { storage, db } from "../../Data/firebaseApp";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
@@ -16,29 +16,52 @@ import firebaseApp from "../../Data/firebaseApp";
 export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
+  
+  //Actualizacion de precios en lote
+  const handleUpdatePrize = async () => {
+    const percentageString = prompt("Ingrese el porcentaje de actualización:");
+    const percentage = Number(percentageString);
+  
+    if (!isNaN(percentage)) {
+      try {
+        const db = getFirestore(firebaseApp);
+        const productsCol = collection(db, "menu");
+        const snapshot = await getDocs(productsCol);
+  
+        snapshot.forEach(async (docSnapshot) => {
+          let newPrize = docSnapshot.data().prize * (1 + percentage / 100);
+          newPrize = Number(newPrize.toFixed(2)); 
+          const docRef = doc(db, "menu", docSnapshot.id); // Corrección aquí
+          await updateDoc(docRef, { prize: newPrize });
+        });
+      } catch (error) {
+        console.error("Error al actualizar los precios:", error);
+      }
+    } else {
+      console.log("Porcentaje no válido");
+    }
+  };
+  
+  //AUtentificacion a administracion
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(true);
 
-//AUtentificacion a administracion
-const [isAuthenticated, setIsAuthenticated] = useState(false);
-const [showLoginModal, setShowLoginModal] = useState(true);
+  const handleLogin = (username, password) => {
+    console.log(username, password);
+    // Aquí implementas tu lógica de autenticación
+    if (username === "admin@gmail.com" && password === "asdfghjk") {
+      setIsAuthenticated(true);
+      localStorage.setItem("isAuthenticated", "true");
+      setShowLoginModal(false);
+    } else {
+      alert("Credenciales incorrectas");
+    }
+  };
 
-const handleLogin = (username, password) => {
-  console.log(username, password)
-  // Aquí implementas tu lógica de autenticación
-  if (username === "admin@gmail.com" && password === "asdfghjk") {
-    setIsAuthenticated(true);
-    localStorage.setItem('isAuthenticated', 'true');
-    setShowLoginModal(false);
-  } else {
-    alert("Credenciales incorrectas");
-  }
-};
-
-const handleLogout = () => {
-  setIsAuthenticated(false);
-  localStorage.removeItem('isAuthenticated');
-  // Otros manejos de cierre de sesión si es necesario
-};
-
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+  };
 
   //Agregar productos modal
   const [showAddModal, setShowAddModal] = useState(false);
@@ -61,31 +84,29 @@ const handleLogout = () => {
   const handleCloseAddModal = () => setShowAddModal(false);
 
   // LOgica para subir el producto a firestore
-
   const uploadImageAndAddProduct = async (product, imageFile) => {
     try {
       // Subir la imagen a Firebase Storage
       const storageRef = ref(storage, `images/${imageFile.name}`);
       const snapshot = await uploadBytes(storageRef, imageFile);
-  
+
       // Obtener la URL de la imagen
       const imageUrl = await getDownloadURL(snapshot.ref);
-  
+
       // Crear una referencia a un nuevo documento en la colección 'menu' con un ID automático
-      const productRef = doc(collection(db, 'menu'));
-  
+      const productRef = doc(collection(db, "menu"));
+
       // Guardar la URL de la imagen y los datos del producto en Firestore
       await setDoc(productRef, {
         ...product,
-        image:imageUrl
+        image: imageUrl,
       });
-  
-      console.log('Producto añadido con éxito');
+
+      console.log("Producto añadido con éxito");
     } catch (error) {
-      console.error('Error al subir la imagen y añadir el producto: ', error);
+      console.error("Error al subir la imagen y añadir el producto: ", error);
     }
   };
-  
 
   // Función para abrir el modal con los datos del producto a editar
   const openEditModal = (product) => {
@@ -109,7 +130,6 @@ const handleLogout = () => {
     title
   ) {
     try {
-      // Referencia al documento en la colección "menu" con el ID proporcionado
       const db = getFirestore(firebaseApp);
       const menuRef = doc(db, "menu", id);
 
@@ -176,11 +196,12 @@ const handleLogout = () => {
 
   //cheque si el Admin esta logueado
   useEffect(() => {
-    const storedAuthState = localStorage.getItem('isAuthenticated');
-    if (storedAuthState === 'true') {
+    const storedAuthState = localStorage.getItem("isAuthenticated");
+    if (storedAuthState === "true") {
       setIsAuthenticated(true);
     }
   }, []);
+
   //Agrega productos a la Cart
   const generateUniqueId = () =>
     Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -244,7 +265,8 @@ const handleLogout = () => {
     showLoginModal,
     handleLogin,
     handleLogout,
-    setShowLoginModal
+    setShowLoginModal,
+    handleUpdatePrize,
   };
 
   return (
