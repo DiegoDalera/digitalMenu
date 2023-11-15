@@ -43,6 +43,7 @@ export const ProductsProvider = ({ children }) => {
     }
   };
   
+
   //AUtentificacion a administracion
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(true);
@@ -64,25 +65,23 @@ export const ProductsProvider = ({ children }) => {
     localStorage.removeItem("isAuthenticated");
   };
 
-  //Agregar productos modal
-  const [showAddModal, setShowAddModal] = useState(false);
 
-  //Edicion de productos
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
+
+ 
 
   //Productos en memoria
   const [products, setProducts] = useState([]);
+
   //Contador de productos en pedido
   const [orderCount, setOrderCount] = useState(0);
 
- 
-  
 
   // Lógica para mostrar y ocultar ModalAddProduct
+  const [showAddModal, setShowAddModal] = useState(false);
   const handleShowAddModal = () => setShowAddModal(true);
   const handleCloseAddModal = () => setShowAddModal(false);
+
 
   // LOgica para subir el producto a firestore
   const uploadImageAndAddProduct = async (product, imageFile) => {
@@ -109,7 +108,10 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  // Función para abrir el modal con los datos del producto a editar
+   //Edicion de productos
+   const [editingProduct, setEditingProduct] = useState(null);
+   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  
   const openEditModal = (product) => {
     setEditingProduct(product);
     setIsEditModalVisible(true);
@@ -149,6 +151,7 @@ export const ProductsProvider = ({ children }) => {
     }
   }
 
+
   // Elimina producto desde firebase
   const removeFromDatabase = async (productId) => {
     try {
@@ -166,7 +169,7 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  //carga los productos de storage
+  //Carga los productos de storage
   useEffect(() => {
     const savedCartProducts =
       JSON.parse(localStorage.getItem("cartProducts")) || [];
@@ -249,6 +252,7 @@ export const ProductsProvider = ({ children }) => {
     setIsCartModalVisible(false);
   };
   
+
 //Enviar pedido
   const sendOrder = async () => {
     try {
@@ -275,12 +279,42 @@ export const ProductsProvider = ({ children }) => {
   const clearCart = () => {
     setCartProducts([])
     localStorage.removeItem("cartProducts");
+    setOrderCount(0)
     hideCartModal();
   }
 
 
+    //AUtentificacion a Cocina
+    const [isAuthenticatedCocina, setIsAuthenticatedCocina] = useState(
+      localStorage.getItem("isAuthenticatedCocina") === "true"
+    );
+    
+    const [showLoginModalCocina, setShowLoginModalCocina] = useState(true);
+  
+    const handleLoginCocina = (email, password) => {
+      console.log(email, password);
+      // Aquí implementas tu lógica de autenticación
+      if (email === "admin@gmail.com" && password === "asdfghjk") {
+        setIsAuthenticatedCocina(true); 
+        localStorage.setItem("isAuthenticatedCocina", "true"); 
+        setShowLoginModalCocina(false); 
+      } else {
+        alert("Credenciales incorrectas");
+      }
+    };
+    
+    const handleCocinaLogout = () => {
+      setIsAuthenticatedCocina(false);
+      localStorage.removeItem("isAuthenticated");
+    };
+
+
   //Value
   const value = {
+    isAuthenticatedCocina,
+    showLoginModalCocina,
+    handleLoginCocina,
+    handleCocinaLogout,
     sendOrder,
     products,
     setProducts,
