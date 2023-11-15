@@ -2,12 +2,14 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { storage, db } from "../../Data/firebaseApp";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
-import { serverTimestamp, addDoc } from 'firebase/firestore';
 
 import {
+  doc, 
+  setDoc,
   getFirestore,
-  collection,
+  serverTimestamp, 
+  addDoc,collection, 
+  onSnapshot, 
   getDocs,
   deleteDoc,
   updateDoc,
@@ -309,8 +311,26 @@ export const ProductsProvider = ({ children }) => {
     };
 
 
+    //Escuchar modificaciones de pedidos
+    const [pedidos, setPedidos] = useState([]);
+
+    useEffect(() => {
+      const unsubscribe = onSnapshot(collection(db, "pedidos"), (snapshot) => {
+        const pedidosActualizados = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPedidos(pedidosActualizados);
+      });
+  
+      return () => unsubscribe(); // Esto es importante para evitar fugas de memoria
+    }, []);
+
+
+
   //Value
   const value = {
+    pedidos ,
     isAuthenticatedCocina,
     showLoginModalCocina,
     handleLoginCocina,
