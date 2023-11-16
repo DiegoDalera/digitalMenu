@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import { ProductsContext } from "../Hooks/ProductsContext";
 import ModalLoginCocina from "./ModalLoginCocina";

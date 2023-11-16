@@ -328,9 +328,22 @@ export const ProductsProvider = ({ children }) => {
 
 
 
+    //Eliminar Pedido de Firebase
+  const onEliminarPedido = async (productId) => {
+    try {
+      const db = getFirestore(firebaseApp);
+      const productRef = doc(db, "pedidos", productId);
+      await deleteDoc(productRef);
+      console.log(`Pedido ${productId} eliminado con éxito`);
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+    }
+  };
+
   //Value
   const value = {
     pedidos ,
+    onEliminarPedido,
     isAuthenticatedCocina,
     showLoginModalCocina,
     handleLoginCocina,

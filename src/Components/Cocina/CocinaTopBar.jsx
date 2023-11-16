@@ -1,6 +1,9 @@
+import './CocinaTopBar.css'
+
+
 const CocinaTopBar = () => {
   return (
-    <div>CocinaTopBar</div>
+    <div className="cocinatopbar">CocinaTopBar</div>
   )
 }
 
