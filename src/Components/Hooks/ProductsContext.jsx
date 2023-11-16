@@ -4,12 +4,13 @@ import { storage, db } from "../../Data/firebaseApp";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import {
-  doc, 
+  doc,
   setDoc,
   getFirestore,
-  serverTimestamp, 
-  addDoc,collection, 
-  onSnapshot, 
+  serverTimestamp,
+  addDoc,
+  collection,
+  onSnapshot,
   getDocs,
   deleteDoc,
   updateDoc,
@@ -24,16 +25,16 @@ export const ProductsProvider = ({ children }) => {
   const handleUpdatePrize = async () => {
     const percentageString = prompt("Ingrese el porcentaje de actualización:");
     const percentage = Number(percentageString);
-  
+
     if (!isNaN(percentage)) {
       try {
         const db = getFirestore(firebaseApp);
         const productsCol = collection(db, "menu");
         const snapshot = await getDocs(productsCol);
-  
+
         snapshot.forEach(async (docSnapshot) => {
           let newPrize = docSnapshot.data().prize * (1 + percentage / 100);
-          newPrize = Number(newPrize.toFixed(2)); 
+          newPrize = Number(newPrize.toFixed(2));
           const docRef = doc(db, "menu", docSnapshot.id); // Corrección aquí
           await updateDoc(docRef, { prize: newPrize });
         });
@@ -44,9 +45,8 @@ export const ProductsProvider = ({ children }) => {
       console.log("Porcentaje no válido");
     }
   };
-  
 
-  //AUtentificacion a administracion
+  //AUtentificacion  Administracion
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(true);
 
@@ -67,23 +67,14 @@ export const ProductsProvider = ({ children }) => {
     localStorage.removeItem("isAuthenticated");
   };
 
-
-
-
  
-
-  //Productos en memoria
-  const [products, setProducts] = useState([]);
-
   //Contador de productos en pedido
   const [orderCount, setOrderCount] = useState(0);
-
 
   // Lógica para mostrar y ocultar ModalAddProduct
   const [showAddModal, setShowAddModal] = useState(false);
   const handleShowAddModal = () => setShowAddModal(true);
   const handleCloseAddModal = () => setShowAddModal(false);
-
 
   // LOgica para subir el producto a firestore
   const uploadImageAndAddProduct = async (product, imageFile) => {
@@ -110,10 +101,10 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-   //Edicion de productos
-   const [editingProduct, setEditingProduct] = useState(null);
-   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  
+  //Edicion de productos
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+
   const openEditModal = (product) => {
     setEditingProduct(product);
     setIsEditModalVisible(true);
@@ -153,7 +144,6 @@ export const ProductsProvider = ({ children }) => {
     }
   }
 
-
   // Elimina producto desde firebase
   const removeFromDatabase = async (productId) => {
     try {
@@ -178,6 +168,9 @@ export const ProductsProvider = ({ children }) => {
     setCartProducts(savedCartProducts);
     setOrderCount(savedCartProducts.length);
   }, []);
+
+   //Productos en memoria
+   const [products, setProducts] = useState([]);
 
   //Carga los productos desde Firebase
   useEffect(() => {
@@ -208,10 +201,8 @@ export const ProductsProvider = ({ children }) => {
     }
   }, []);
 
-
-
-   //Productos en la cart
-   const [cartProducts, setCartProducts] = useState([]);
+  //Productos en la cart
+  const [cartProducts, setCartProducts] = useState([]);
 
   //Agrega productos a la Cart
   const generateUniqueId = () =>
@@ -229,7 +220,6 @@ export const ProductsProvider = ({ children }) => {
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
 
-
   //Elimina productos a Cart
   const removeFromCart = (productId) => {
     const newCartProducts = cartProducts.filter(
@@ -239,7 +229,6 @@ export const ProductsProvider = ({ children }) => {
     setOrderCount(newCartProducts.length);
     localStorage.setItem("cartProducts", JSON.stringify(newCartProducts));
   };
-
 
   //Cart Modal
   const [isCartModalVisible, setIsCartModalVisible] = useState(false);
@@ -253,25 +242,26 @@ export const ProductsProvider = ({ children }) => {
   const hideCartModal = () => {
     setIsCartModalVisible(false);
   };
-  
 
-//Enviar pedido
+  //Enviar pedido
   const sendOrder = async () => {
     try {
       const db = getFirestore(firebaseApp);
       const ordersCol = collection(db, "pedidos");
 
-      const totalPrice = cartProducts.reduce((total, product) => total + product.prize, 0);
+      const totalPrice = cartProducts.reduce(
+        (total, product) => total + product.prize,
+        0
+      );
 
-  
       const order = {
         products: cartProducts,
         totalPrice: totalPrice.toFixed(2),
         timestamp: serverTimestamp(),
       };
-  
+
       await addDoc(ordersCol, order);
-  
+
       clearCart();
     } catch (error) {
       console.error("Error al enviar el pedido:", error);
@@ -279,56 +269,52 @@ export const ProductsProvider = ({ children }) => {
   };
 
   const clearCart = () => {
-    setCartProducts([])
+    setCartProducts([]);
     localStorage.removeItem("cartProducts");
-    setOrderCount(0)
+    setOrderCount(0);
     hideCartModal();
-  }
+  };
 
+  //AUtentificacion a Cocina
+  const [isAuthenticatedCocina, setIsAuthenticatedCocina] = useState(
+    localStorage.getItem("isAuthenticatedCocina") === "true"
+  );
 
-    //AUtentificacion a Cocina
-    const [isAuthenticatedCocina, setIsAuthenticatedCocina] = useState(
-      localStorage.getItem("isAuthenticatedCocina") === "true"
-    );
-    
-    const [showLoginModalCocina, setShowLoginModalCocina] = useState(true);
-  
-    const handleLoginCocina = (email, password) => {
-      console.log(email, password);
-      // Aquí implementas tu lógica de autenticación
-      if (email === "admin@gmail.com" && password === "asdfghjk") {
-        setIsAuthenticatedCocina(true); 
-        localStorage.setItem("isAuthenticatedCocina", "true"); 
-        setShowLoginModalCocina(false); 
-      } else {
-        alert("Credenciales incorrectas");
-      }
-    };
-    
-    const handleCocinaLogout = () => {
-      setIsAuthenticatedCocina(false);
-      localStorage.removeItem("isAuthenticated");
-    };
+  const [showLoginModalCocina, setShowLoginModalCocina] = useState(true);
 
+  const handleLoginCocina = (email, password) => {
+    console.log(email, password);
+    // Aquí implementas tu lógica de autenticación
+    if (email === "admin@gmail.com" && password === "asdfghjk") {
+      setIsAuthenticatedCocina(true);
+      localStorage.setItem("isAuthenticatedCocina", "true");
+      setShowLoginModalCocina(false);
+    } else {
+      alert("Credenciales incorrectas");
+    }
+  };
 
-    //Escuchar modificaciones de pedidos
-    const [pedidos, setPedidos] = useState([]);
+  const handleCocinaLogout = () => {
+    setIsAuthenticatedCocina(false);
+    localStorage.removeItem("isAuthenticated");
+  };
 
-    useEffect(() => {
-      const unsubscribe = onSnapshot(collection(db, "pedidos"), (snapshot) => {
-        const pedidosActualizados = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setPedidos(pedidosActualizados);
-      });
-  
-      return () => unsubscribe(); // Esto es importante para evitar fugas de memoria
-    }, []);
+  //Escuchar modificaciones de pedidos
+  const [pedidos, setPedidos] = useState([]);
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "pedidos"), (snapshot) => {
+      const pedidosActualizados = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPedidos(pedidosActualizados);
+    });
 
+    return () => unsubscribe(); // Esto es importante para evitar fugas de memoria
+  }, []);
 
-    //Eliminar Pedido de Firebase
+  //Eliminar Pedido de Firebase
   const onEliminarPedido = async (productId) => {
     try {
       const db = getFirestore(firebaseApp);
@@ -340,9 +326,81 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
+
+  // Seccion Categorias
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    obtenerCategorias();
+  }, []); 
+  
+  useEffect(() => {
+    console.log("Categories actualizadas: ", categorias);
+  }, [categorias]); 
+  
+  const obtenerCategorias = async () => {
+    try {
+      const db = getFirestore(firebaseApp);
+      const colectionCategories = collection(db, "categoriasDelMenu");
+      const querySnapshot = await getDocs(colectionCategories);
+
+      const categoriesArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      console.log("obtener categoriesArray", categoriesArray);
+      setCategorias(categoriesArray);
+      
+
+    } catch (error) {
+      console.error("Error al obtener categorías: ", error);
+    }
+  };
+
+  // Estado para controlar la visibilidad del modal
+const [isModalCategoryVisible, setIsModalCategoryVisible] = useState(false);
+
+// Función para mostrar el modal
+const handleShowModalCategory = () => setIsModalCategoryVisible(true);
+
+// Función para ocultar el modal
+const handleCloseModalCategory = () => setIsModalCategoryVisible(false);
+
+//Funcion para agregar una nueva categoria
+const addCategoryToFirebase = async (categoryName) => {
+  
+  if (!categoryName) return; // Comprobar que el nombre de la categoría no esté vacío
+  try {
+    const db = getFirestore(firebaseApp);
+    const colectionCategories = collection(db, "categoriasDelMenu");
+    await addDoc(colectionCategories, { nombre: categoryName });
+
+  } catch (error) {
+    console.error("Error al agregar categoría: ", error);
+  }
+};
+
+
+// Estado para controlar la visibilidad del ModalAddCategory
+const [isModalAddCategoryVisible, setIsModalAddCategoryVisible] = useState(false);
+
+const handleShowModalAddCategory = () => setIsModalAddCategoryVisible(true);
+const handleCloseModalAddCategory = () => setIsModalAddCategoryVisible(false);
+
+
+
   //Value
   const value = {
-    pedidos ,
+    isModalAddCategoryVisible,
+    handleShowModalAddCategory,
+    handleCloseModalAddCategory,
+    addCategoryToFirebase,
+    isModalCategoryVisible,
+    handleShowModalCategory,
+    handleCloseModalCategory,
+    categorias,
+    pedidos,
     onEliminarPedido,
     isAuthenticatedCocina,
     showLoginModalCocina,

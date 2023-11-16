@@ -6,6 +6,7 @@ import ModalAddProduct from "./ModalAddProduct";
 import ModalAddEditProduct from "./ModalAddEditProduct";
 import ModalLoginAdmin from "./ModalLoginAdmin";
 import AdminTopBar from "./AdminTopBar";
+import ModalUpdateCategories from "./ModalUpdateCategories";
 
 const Administracion = () => {
   const {
@@ -17,8 +18,9 @@ const Administracion = () => {
     ShowLoginModal,
     setShowLoginModal,
     isAuthenticated,
-    handleUpdatePrize
-  } = useContext(ProductsContext);
+    handleUpdatePrize,
+    handleShowModalCategory,
+    } = useContext(ProductsContext);
 
   const handleDelete = (productId) => {
     removeFromDatabase(productId);
@@ -45,6 +47,11 @@ const Administracion = () => {
             <Button variant="success" onClick={handleUpdatePrize}>
               Actualizar precios
             </Button>
+            <div className="update-category">
+            <Button variant="success" onClick={handleShowModalCategory}>
+              Manejar Categorias
+            </Button>
+          </div>
           </div>
           <div className="admin-table">
             <Table responsive="sm" size="string">
@@ -95,6 +102,8 @@ const Administracion = () => {
           </div>
           <ModalAddProduct />
           <ModalAddEditProduct />
+          <ModalUpdateCategories />
+
         </>
       ) : (
         <ModalLoginAdmin
