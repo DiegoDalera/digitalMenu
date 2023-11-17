@@ -374,7 +374,7 @@ const addCategoryToFirebase = async (categoryName) => {
   try {
     const db = getFirestore(firebaseApp);
     const colectionCategories = collection(db, "categoriasDelMenu");
-    await addDoc(colectionCategories, { nombre: categoryName });
+    await addDoc(colectionCategories, { categoria: categoryName });
 
   } catch (error) {
     console.error("Error al agregar categoría: ", error);
@@ -388,10 +388,26 @@ const [isModalAddCategoryVisible, setIsModalAddCategoryVisible] = useState(false
 const handleShowModalAddCategory = () => setIsModalAddCategoryVisible(true);
 const handleCloseModalAddCategory = () => setIsModalAddCategoryVisible(false);
 
+//Eliminar Categoria de firebase:
+
+const handleDeleteCategory = async (categoryId) => {
+  try {
+    const db = getFirestore(firebaseApp);
+    const productRef = doc(db, "categoriasDelMenu", categoryId);
+    await deleteDoc(productRef);
+    console.log(`Categoria ${categoryId} eliminado con éxito`);
+
+    // Actualizar el estado categorias para reflejar la eliminación
+    setCategorias(categorias.filter(category => category.id !== categoryId));
+  } catch (error) {
+    console.error("Error al eliminar la categoria", error);
+  }
+};
 
 
   //Value
   const value = {
+    handleDeleteCategory,
     isModalAddCategoryVisible,
     handleShowModalAddCategory,
     handleCloseModalAddCategory,
