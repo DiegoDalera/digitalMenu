@@ -338,6 +338,12 @@ export const ProductsProvider = ({ children }) => {
     console.log("Categories actualizadas: ", categorias);
   }, [categorias]); 
   
+  useEffect(() => {
+    if (showAddModal) {
+       obtenerCategorias();
+    }
+  }, [showAddModal]);
+
   const obtenerCategorias = async () => {
     try {
       const db = getFirestore(firebaseApp);

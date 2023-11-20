@@ -1,3 +1,13 @@
 .cart-icon{
-    font-size: 32px;
+    font-size: 42px;
 }
+
+.numero {
+    position: absolute;
+    top: -5px; /* Ajusta esto para controlar la posición vertical */
+    right: -5px; /* Ajusta esto para controlar la posición horizontal */
+    background-color: red; /* Cambia el color de fondo según tus preferencias */
+    color: white; /* Cambia el color del texto según tus preferencias */
+    border-radius: 50%; /* Esto crea un círculo alrededor del número */
+    padding: 5px 10px; /* Ajusta esto para controlar el tamaño del círculo */
+  }

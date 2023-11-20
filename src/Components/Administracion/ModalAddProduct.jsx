@@ -3,7 +3,12 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { ProductsContext } from "../Hooks/ProductsContext";
 
 const ModalAddProduct = () => {
-  const { uploadImageAndAddProduct, showAddModal, handleCloseAddModal } = useContext(ProductsContext);
+  const {
+    uploadImageAndAddProduct,
+    showAddModal,
+    handleCloseAddModal,
+    categorias,
+  } = useContext(ProductsContext);
 
   // Estado para manejar los valores del formulario
   const [productToAdd, setProductToAdd] = useState({
@@ -36,8 +41,15 @@ const ModalAddProduct = () => {
   // Función para manejar la adición del producto
   const handleAdd = async (event) => {
     event.preventDefault();
+
+    if (!productToAdd.category) {
+      console.log(productToAdd);
+      alert("Por favor, selecciona una categoría válida");
+      return;
+    }
+
     if (!imageProducto) {
-      console.error('No hay imágenes para subir');
+      console.error("No hay imágenes para subir");
       return;
     }
 
@@ -86,12 +98,20 @@ const ModalAddProduct = () => {
           />
           <br />
           <Form.Label htmlFor="categoria">Categoria</Form.Label>
-          <Form.Control
-            id="categoria"
-            size="text"
+
+          <Form.Select
+            aria-label="Categoria"
             name="category"
             onChange={handleChange}
-          />
+          >
+            <option value="">Selecciona la categoría</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.categoria}>
+                {categoria.categoria}
+              </option>
+            ))}
+          </Form.Select>
+
           <br />
           <Form.Label htmlFor="precio">Precio</Form.Label>
           <Form.Control

@@ -10,7 +10,7 @@ function Cart() {
 
   return (
     <div className="cart" >
-      <h4>{orderCount}</h4>
+      <h4 className="numero">{orderCount}</h4>
       <BsFillCartFill className="cart-icon" onClick={showCartModal}/>
     </div>
   );

@@ -19,7 +19,6 @@ function App() {
             <Route path="/" element={<Menu />} />
             <Route path="/Cocina" element={<Cocina/>} />
             <Route path="/Administracion" element={<Administracion />} />
-            {/* <Route path="/AdminLogin" element={<AdminLogin />} /> */}
           </Routes>
         </div>
       </Router>
