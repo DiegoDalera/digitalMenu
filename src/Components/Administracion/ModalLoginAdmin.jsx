@@ -65,6 +65,7 @@ function ModalLoginAdmin() {
         </Modal.Title>
       </Modal.Header>
 
+     
       <div className="App">
         <div className="container p-5">
           <div className="row d-flex justify-content-center">
@@ -114,6 +115,7 @@ function ModalLoginAdmin() {
           </div>
         </div>
       </div>
+      
     </Modal>
   );
 }

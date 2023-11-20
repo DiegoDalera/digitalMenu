@@ -9,7 +9,7 @@
 }
 
 .item {
-  width:30%;
+  width: 30%;
   border: 1px solid #ddd;
   padding: 1rem;
   border-radius: 8px;
@@ -19,9 +19,18 @@
 .item-image {
   width: 100%;
   max-height: 200px;
-  /* Ajusta este valor según tus necesidades */
   object-fit: cover;
   border-radius: 8px;
+}
+
+.item-desctipcion {
+  min-height:1.2rem;
+
+
+}
+
+.item-title {
+  text-align: center;
 }
 
 .item-price {
@@ -46,12 +55,15 @@
   border: 2px solid #212529;
   color: #212529;
 }
+
 .btn-button:hover {
   color: #fff;
 }
+
 .btn-button:hover:after {
   width: 100%;
 }
+
 .btn-button:after {
   content: "";
   position: absolute;
@@ -65,11 +77,36 @@
 }
 
 /* Responsive */
+
+@media (max-width: 968px) {
+  .item-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    width: 60%;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+
+}
+
 @media (max-width: 768px) {
   .item-list {
     display: flex;
     flex-direction: column;
+  }
 
+  .item {
+    width: 80%;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
   }
 
 

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { ProductsContext } from "../Hooks/ProductsContext";
+import { useEffect } from "react";
 
 const ModalAddProduct = () => {
   const {
@@ -8,6 +9,7 @@ const ModalAddProduct = () => {
     showAddModal,
     handleCloseAddModal,
     categorias,
+    fetchProducts,
   } = useContext(ProductsContext);
 
   // Estado para manejar los valores del formulario
@@ -20,6 +22,22 @@ const ModalAddProduct = () => {
   });
 
   const [imageProducto, setImageProducto] = useState(null);
+
+  // Estado para manejar la habilitación del botón de "Agregar"
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    // Verificar si todos los campos del formulario tienen valores
+    const { title, descripcion, category, prize } = productToAdd;
+    const hasValidData =
+      title.trim() !== "" &&
+      descripcion.trim() !== "" &&
+      category !== "" &&
+      prize !== "";
+
+    // Habilitar o deshabilitar el botón de "Agregar" en función de los campos completos
+    setIsFormValid(hasValidData && !!imageProducto);
+  }, [productToAdd, imageProducto]);
 
   // Maneja los cambios en los campos de texto del formulario
   const handleChange = (e) => {
@@ -60,7 +78,8 @@ const ModalAddProduct = () => {
 
     // Subir la imagen y añadir el producto
     await uploadImageAndAddProduct(productWithImage, imageProducto);
-
+    // Después de agregar el producto, carga nuevamente la lista de productos
+    fetchProducts();
     handleCloseAddModal();
   };
 
@@ -129,7 +148,9 @@ const ModalAddProduct = () => {
           <Button type="button" onClick={handleCloseAddModal}>
             Cerrar
           </Button>
-          <Button type="submit">Agregar</Button>
+          <Button type="submit" disabled={!isFormValid}>
+            Agregar
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>

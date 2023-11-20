@@ -5,10 +5,8 @@ import "./ItemList.css";
 
 function ItemList({ category }) {
 
-  const { products } = useProducts(); // Usamos el hook para acceder a los productos del contexto
-  
-  console.log("products itemlist ", products);
-  
+  const { products } = useProducts(); 
+   
   // Filtramos los productos directamente desde el contexto basándonos en la categoría
   const filteredProducts = category
     ? products.filter((product) => product.category === category)

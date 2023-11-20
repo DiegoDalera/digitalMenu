@@ -9,7 +9,7 @@ const ModalUpdateCategories = () => {
     isModalCategoryVisible,
     handleCloseModalCategory,
     handleShowModalAddCategory,
-    handleDeleteCategory
+    handleDeleteCategory,
   } = useContext(ProductsContext);
 
   return (
@@ -48,12 +48,14 @@ const ModalUpdateCategories = () => {
           </Table>
         </Modal.Body>
 
-        <Button type="button" onClick={handleShowModalAddCategory}>
-          agregar categoria
-        </Button>
-        <Button type="button" onClick={handleCloseModalCategory}>
-          Cerrar
-        </Button>
+        <Modal.Footer>
+          <Button type="button" onClick={handleShowModalAddCategory}>
+            agregar categoria
+          </Button>
+          <Button type="button" onClick={handleCloseModalCategory}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
       </Modal>
 
       <ModalAddCategory />

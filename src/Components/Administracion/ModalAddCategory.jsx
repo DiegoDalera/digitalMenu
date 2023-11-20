@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useProducts } from "../Hooks/ProductsContext";
-import { Modal } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 
 const ModalAddCategory = () => {
   const [newCategory, setNewCategory] = useState("");
-  const { addCategoryToFirebase ,isModalAddCategoryVisible, handleCloseModalAddCategory } = useProducts();
+  const {
+    addCategoryToFirebase,
+    isModalAddCategoryVisible,
+    handleCloseModalAddCategory,
+  } = useProducts();
 
   const handleAddCategory = () => {
     addCategoryToFirebase(newCategory);
@@ -13,14 +17,26 @@ const ModalAddCategory = () => {
 
   return (
     <>
-      <Modal show={isModalAddCategoryVisible} onHide={handleCloseModalAddCategory}>
-        <input
+      <Modal
+        show={isModalAddCategoryVisible}
+        onHide={handleCloseModalAddCategory}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Agregas</Modal.Title>
+        </Modal.Header>
+
+        <Form.Label htmlFor="precio">Precio</Form.Label>
+        <Form.Control
+          id="precio"
+          size="text"
           type="text"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="Nueva Categoría"
+          name="prize"
+          onChange
         />
-        <button onClick={handleAddCategory}>Agregar Categoría</button>
+
+        <Modal.Footer>
+          <Button onClick={handleAddCategory}>Agregar Categoría</Button>
+        </Modal.Footer>
       </Modal>
     </>
   );

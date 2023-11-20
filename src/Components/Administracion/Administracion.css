@@ -1,4 +1,28 @@
-.administracion-container{
+.administracion-container {
     width: 100%;
     min-height: 80vh;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem;
+}
+
+.admin-title{
+    text-align: center;
+    margin: 1rem;
+}
+
+.acciones-admin{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  
 }

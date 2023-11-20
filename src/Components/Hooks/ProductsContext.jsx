@@ -20,10 +20,10 @@ import firebaseApp from "../../Data/firebaseApp";
 export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
-  
+
   //Actualizacion de precios en lote
-  const handleUpdatePrize = async () => {
-    const percentageString = prompt("Ingrese el porcentaje de actualización:");
+  const handleUpdatePrize = async (percentageString) => {
+   
     const percentage = Number(percentageString);
 
     if (!isNaN(percentage)) {
@@ -67,7 +67,6 @@ export const ProductsProvider = ({ children }) => {
     localStorage.removeItem("isAuthenticated");
   };
 
- 
   //Contador de productos en pedido
   const [orderCount, setOrderCount] = useState(0);
 
@@ -169,8 +168,8 @@ export const ProductsProvider = ({ children }) => {
     setOrderCount(savedCartProducts.length);
   }, []);
 
-   //Productos en memoria
-   const [products, setProducts] = useState([]);
+  //Productos en memoria
+  const [products, setProducts] = useState([]);
 
   //Carga los productos desde Firebase
   useEffect(() => {
@@ -326,21 +325,20 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-
   // Seccion Categorias
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     obtenerCategorias();
-  }, []); 
-  
+  }, []);
+
   useEffect(() => {
     console.log("Categories actualizadas: ", categorias);
-  }, [categorias]); 
-  
+  }, [categorias]);
+
   useEffect(() => {
     if (showAddModal) {
-       obtenerCategorias();
+      obtenerCategorias();
     }
   }, [showAddModal]);
 
@@ -357,62 +355,73 @@ export const ProductsProvider = ({ children }) => {
 
       console.log("obtener categoriesArray", categoriesArray);
       setCategorias(categoriesArray);
-      
-
     } catch (error) {
       console.error("Error al obtener categorías: ", error);
     }
   };
 
   // Estado para controlar la visibilidad del modal
-const [isModalCategoryVisible, setIsModalCategoryVisible] = useState(false);
+  const [isModalCategoryVisible, setIsModalCategoryVisible] = useState(false);
 
-// Función para mostrar el modal
-const handleShowModalCategory = () => setIsModalCategoryVisible(true);
+  // Función para mostrar el modal
+  const handleShowModalCategory = () => setIsModalCategoryVisible(true);
 
-// Función para ocultar el modal
-const handleCloseModalCategory = () => setIsModalCategoryVisible(false);
+  // Función para ocultar el modal
+  const handleCloseModalCategory = () => setIsModalCategoryVisible(false);
 
-//Funcion para agregar una nueva categoria
-const addCategoryToFirebase = async (categoryName) => {
-  
-  if (!categoryName) return; // Comprobar que el nombre de la categoría no esté vacío
-  try {
-    const db = getFirestore(firebaseApp);
-    const colectionCategories = collection(db, "categoriasDelMenu");
-    await addDoc(colectionCategories, { categoria: categoryName });
+  //Funcion para agregar una nueva categoria
+  const addCategoryToFirebase = async (categoryName) => {
+    if (!categoryName) return; // Comprobar que el nombre de la categoría no esté vacío
+    try {
+      const db = getFirestore(firebaseApp);
+      const colectionCategories = collection(db, "categoriasDelMenu");
+      await addDoc(colectionCategories, { categoria: categoryName });
+    } catch (error) {
+      console.error("Error al agregar categoría: ", error);
+    }
+  };
 
-  } catch (error) {
-    console.error("Error al agregar categoría: ", error);
-  }
-};
+  // Estado para controlar la visibilidad del ModalAddCategory
+  const [isModalAddCategoryVisible, setIsModalAddCategoryVisible] =
+    useState(false);
 
+  const handleShowModalAddCategory = () => setIsModalAddCategoryVisible(true);
+  const handleCloseModalAddCategory = () => setIsModalAddCategoryVisible(false);
 
-// Estado para controlar la visibilidad del ModalAddCategory
-const [isModalAddCategoryVisible, setIsModalAddCategoryVisible] = useState(false);
+  //Eliminar Categoria de firebase:
 
-const handleShowModalAddCategory = () => setIsModalAddCategoryVisible(true);
-const handleCloseModalAddCategory = () => setIsModalAddCategoryVisible(false);
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      const db = getFirestore(firebaseApp);
+      const productRef = doc(db, "categoriasDelMenu", categoryId);
+      await deleteDoc(productRef);
+      console.log(`Categoria ${categoryId} eliminado con éxito`);
 
-//Eliminar Categoria de firebase:
+      // Actualizar el estado categorias para reflejar la eliminación
+      setCategorias(
+        categorias.filter((category) => category.id !== categoryId)
+      );
+    } catch (error) {
+      console.error("Error al eliminar la categoria", error);
+    }
+  };
 
-const handleDeleteCategory = async (categoryId) => {
-  try {
-    const db = getFirestore(firebaseApp);
-    const productRef = doc(db, "categoriasDelMenu", categoryId);
-    await deleteDoc(productRef);
-    console.log(`Categoria ${categoryId} eliminado con éxito`);
+  // modal aumentar precios en lote
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-    // Actualizar el estado categorias para reflejar la eliminación
-    setCategorias(categorias.filter(category => category.id !== categoryId));
-  } catch (error) {
-    console.error("Error al eliminar la categoria", error);
-  }
-};
+  const showImputPrizeModal = () => {
+    setIsModalVisible(true);
+  };
 
+  const hideImputPrizeModal = () => {
+    setIsModalVisible(false);
+  };
 
   //Value
   const value = {
+    isModalVisible,
+    showImputPrizeModal,
+    hideImputPrizeModal,
     handleDeleteCategory,
     isModalAddCategoryVisible,
     handleShowModalAddCategory,

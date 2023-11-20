@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useProducts } from "../Hooks/ProductsContext"; // Asegúrate de que la ruta sea correcta
-
+import './Item.css'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 function Item({ id, image, title, descripcion, prize }) {
   const notify = () => toast.success("Agregado al pedido!");
@@ -28,8 +29,8 @@ function Item({ id, image, title, descripcion, prize }) {
   return (
     <div className="item">
       <img src={image} alt={title} className="item-image" />
-      <h3>{title}</h3>
-      <p>{descripcion}</p>
+      <h3 className="item-title">{title}</h3>
+      <p className="item-desctipcion">{descripcion}</p>
       <p className="item-price">${prize.toFixed(2)}</p>
       <button onClick={handleAddToCart} className="btn-button">
         Agregar al pedido

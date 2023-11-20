@@ -7,6 +7,9 @@ import ModalAddEditProduct from "./ModalAddEditProduct";
 import ModalLoginAdmin from "./ModalLoginAdmin";
 import AdminTopBar from "./AdminTopBar";
 import ModalUpdateCategories from "./ModalUpdateCategories";
+import ModalImputPrize from "./ModalImputPrize";
+
+import "./Administracion.css";
 
 const Administracion = () => {
   const {
@@ -18,9 +21,9 @@ const Administracion = () => {
     ShowLoginModal,
     setShowLoginModal,
     isAuthenticated,
-    handleUpdatePrize,
     handleShowModalCategory,
-    } = useContext(ProductsContext);
+    showImputPrizeModal,
+  } = useContext(ProductsContext);
 
   const handleDelete = (productId) => {
     removeFromDatabase(productId);
@@ -38,20 +41,25 @@ const Administracion = () => {
           <div className="admin-title">
             <h2>Administración</h2>
           </div>
-          <div className="add-product">
-            <Button variant="success" onClick={handleShowAddModal}>
-              Agregar +
-            </Button>
-          </div>
-          <div className="update-prize">
-            <Button variant="success" onClick={handleUpdatePrize}>
-              Actualizar precios
-            </Button>
+
+          <div className="admin-buttons">
+            <div className="add-product">
+              <Button variant="success" onClick={handleShowAddModal}>
+                Agregar +
+              </Button>
+            </div>
+
+            <div className="update-prize">
+              <Button variant="success" onClick={showImputPrizeModal}>
+                Actualizar precios
+              </Button>
+            </div>
+
             <div className="update-category">
-            <Button variant="success" onClick={handleShowModalCategory}>
-              Manejar Categorias
-            </Button>
-          </div>
+              <Button variant="success" onClick={handleShowModalCategory}>
+                Manejar Categorias
+              </Button>
+            </div>
           </div>
           <div className="admin-table">
             <Table responsive="sm" size="string">
@@ -73,7 +81,13 @@ const Administracion = () => {
                     <td>{product.category}</td>
                     <td>{product.title}</td>
                     <td>{product.descripcion}</td>
-                    <td>{product.prize}</td>
+                    <td>
+                      {product.prize.toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumFractionDigits: 2,
+                      })}
+                    </td>
                     <td>
                       <img
                         src={product.image}
@@ -81,19 +95,19 @@ const Administracion = () => {
                         style={{ width: "50px" }}
                       />
                     </td>
-                    <td>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDelete(product.id)}
-                      >
-                        Eliminar
-                      </Button>{" "}
+                    <td className="acciones-admin">
                       <Button
                         variant="primary"
                         onClick={() => handleEdit(product)}
                       >
                         Editar
                       </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Eliminar
+                      </Button>{" "}
                     </td>
                   </tr>
                 ))}
@@ -103,7 +117,7 @@ const Administracion = () => {
           <ModalAddProduct />
           <ModalAddEditProduct />
           <ModalUpdateCategories />
-
+          <ModalImputPrize />
         </>
       ) : (
         <ModalLoginAdmin
