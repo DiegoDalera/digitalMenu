@@ -17,6 +17,8 @@ import {
 } from "firebase/firestore";
 import firebaseApp from "../../Data/firebaseApp";
 
+import Swal from "sweetalert2";
+
 export const ProductsContext = createContext(null);
 export const useProducts = () => useContext(ProductsContext);
 export const ProductsProvider = ({ children }) => {
@@ -319,7 +321,8 @@ export const ProductsProvider = ({ children }) => {
       const db = getFirestore(firebaseApp);
       const productRef = doc(db, "pedidos", productId);
       await deleteDoc(productRef);
-      console.log(`Pedido ${productId} eliminado con éxito`);
+      Swal.fire(`Pedido ${productId} eliminado con éxito`);
+      
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
     }
@@ -375,7 +378,7 @@ export const ProductsProvider = ({ children }) => {
     try {
       const db = getFirestore(firebaseApp);
       const colectionCategories = collection(db, "categoriasDelMenu");
-      
+
       await addDoc(colectionCategories, { categoria: categoryName });
     } catch (error) {
       console.error("Error al agregar categoría: ", error);

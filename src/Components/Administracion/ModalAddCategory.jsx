@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useProducts } from "../Hooks/ProductsContext";
 import { Button, Modal, Form } from "react-bootstrap";
+import './ModalAddCategory.css'
 import Swal from "sweetalert2";
 
 const ModalAddCategory = () => {
@@ -17,6 +18,7 @@ const ModalAddCategory = () => {
     addCategoryToFirebase(newCategory);
     Swal.fire("Categoria agregada correctamente");
     setNewCategory("");
+    handleCloseModalAddCategory();
   };
 
   return (
@@ -24,26 +26,28 @@ const ModalAddCategory = () => {
       <Modal
         show={isModalAddCategoryVisible}
         onHide={handleCloseModalAddCategory}
+        className="modal-categoria"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Agregas</Modal.Title>
+        
         </Modal.Header>
 
         <Form onSubmit={handleAddCategory}>
-          <Form.Label htmlFor="categoriaNueva">
-            Ingesa la nueva categoria
-          </Form.Label>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label htmlFor="categoriaNueva">
+              Ingesa la nueva categoria
+            </Form.Label>
 
-          <Form.Control
-            id="categoriaNueva"
-            type="text"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
+            <Form.Control
+              id="categoriaNueva"
+              type="text"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+          </Form.Group>
 
           <Button type="submit">Agregar Categoría</Button>
         </Form>
-
       </Modal>
     </>
   );
