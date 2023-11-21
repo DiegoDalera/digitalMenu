@@ -3,13 +3,14 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { ProductsContext } from "../Hooks/ProductsContext";
 import { useEffect } from "react";
 
+import Swal from "sweetalert2";
+
 const ModalAddProduct = () => {
   const {
     uploadImageAndAddProduct,
     showAddModal,
     handleCloseAddModal,
     categorias,
-    fetchProducts,
   } = useContext(ProductsContext);
 
   // Estado para manejar los valores del formulario
@@ -77,11 +78,20 @@ const ModalAddProduct = () => {
     };
 
     // Subir la imagen y añadir el producto
-    await uploadImageAndAddProduct(productWithImage, imageProducto);
+    try {
+      await uploadImageAndAddProduct(productWithImage, imageProducto);
+    } catch (error) {
+      console.error("Error al subir imagen y añadir producto:", error);
+      // Manejo adicional del error
+      return;
+    }
+    
+
     // Después de agregar el producto, carga nuevamente la lista de productos
-    fetchProducts();
+    Swal.fire("Producto actualizado correctamente");
     handleCloseAddModal();
   };
+
 
   return (
     <Modal

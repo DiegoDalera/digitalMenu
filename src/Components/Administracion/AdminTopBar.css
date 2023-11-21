@@ -8,3 +8,9 @@
     color: aliceblue;
     padding: 10px;
 }
+
+.logout{
+    font-size: 32;
+    color: aliceblue;
+    background-color: black;
+}

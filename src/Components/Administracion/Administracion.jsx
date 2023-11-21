@@ -45,13 +45,13 @@ const Administracion = () => {
           <div className="admin-buttons">
             <div className="add-product">
               <Button variant="success" onClick={handleShowAddModal}>
-                Agregar +
+                Agregar Productos +
               </Button>
             </div>
 
             <div className="update-prize">
               <Button variant="success" onClick={showImputPrizeModal}>
-                Actualizar precios
+                Actualizar precios en lote
               </Button>
             </div>
 
