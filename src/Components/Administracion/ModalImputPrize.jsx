@@ -3,6 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useContext } from "react";
 import { ProductsContext } from "../Hooks/ProductsContext";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 function ModalImputPrize() {
   const { isModalVisible, hideImputPrizeModal, handleUpdatePrize } =
@@ -16,6 +17,7 @@ function ModalImputPrize() {
 
   const handleSubmit = () => {
     handleUpdatePrize(percentageString);
+    Swal.fire("Precios actualizados correctamente");
     hideImputPrizeModal();
   };
 

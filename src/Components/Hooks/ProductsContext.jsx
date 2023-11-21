@@ -375,6 +375,7 @@ export const ProductsProvider = ({ children }) => {
     try {
       const db = getFirestore(firebaseApp);
       const colectionCategories = collection(db, "categoriasDelMenu");
+      
       await addDoc(colectionCategories, { categoria: categoryName });
     } catch (error) {
       console.error("Error al agregar categoría: ", error);

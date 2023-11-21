@@ -50,10 +50,7 @@ const ModalUpdateCategories = () => {
 
         <Modal.Footer>
           <Button type="button" onClick={handleShowModalAddCategory}>
-            agregar categoria
-          </Button>
-          <Button type="button" onClick={handleCloseModalCategory}>
-            Cerrar
+            Agregar nueva categoria
           </Button>
         </Modal.Footer>
       </Modal>
