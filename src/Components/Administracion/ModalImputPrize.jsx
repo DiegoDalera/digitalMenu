@@ -49,15 +49,18 @@ function ModalImputPrize() {
             value={percentageString}
             onChange={handleInputChange}
           />
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={!isValidPercentage(percentageString)}
-          >
-            Ingresar
-          </Button>
         </div>
       </Modal.Body>
+
+      <Modal.Footer>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          disabled={!isValidPercentage(percentageString)}
+        >
+          Ingresar
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
