@@ -42,7 +42,10 @@ function CartModal() {
               </p>
             </div>
             <div className="btn-borrar">
-              <button className ="btn-erase"   onClick={() => removeFromCart(product.uniqueId)}>
+              <button
+                className="btn-erase"
+                onClick={() => removeFromCart(product.uniqueId)}
+              >
                 <Trash />
               </button>
             </div>
@@ -51,7 +54,7 @@ function CartModal() {
       </Modal.Body>
       <Modal.Footer>
         <p>Total a pagar: ${totalPrice.toFixed(2)}</p>
-        <Button onClick={hideCartModal}>Close</Button>
+        <Button onClick={hideCartModal}>Cerrar</Button>
         <Button onClick={sendOrder}>Enviar Orden</Button>
       </Modal.Footer>
     </Modal>

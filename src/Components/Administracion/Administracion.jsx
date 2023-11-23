@@ -61,9 +61,10 @@ const Administracion = () => {
               </Button>
             </div>
           </div>
+
           <div className="admin-table">
-            <Table responsive="sm" size="string">
-              <thead>
+            <Table striped bordered hover size="sm" responsive="sm">
+              <thead className="table-head">
                 <tr>
                   <th>#</th>
                   <th>Categoría</th>

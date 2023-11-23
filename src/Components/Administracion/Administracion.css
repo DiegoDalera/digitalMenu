@@ -12,17 +12,33 @@
     margin: 1rem;
 }
 
-.admin-title{
+.admin-title {
     text-align: center;
     margin: 1rem;
 }
 
-.acciones-admin{
+.acciones-admin {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     gap: 5px;
     flex-wrap: wrap;
-  
+
+}
+
+.table-head{
+    text-align: center;
+}
+/* Responsive */
+
+@media (max-width: 768px) {
+    .admin-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+
+
 }
