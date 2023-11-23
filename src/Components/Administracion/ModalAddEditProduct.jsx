@@ -53,6 +53,7 @@ const ModalAddEditProduct = () => {
       parseFloat(productToEdit.prize), // Asegúrate de convertir el precio a un número
       productToEdit.title
     );
+    closeEditModal()
   };
 
   return (

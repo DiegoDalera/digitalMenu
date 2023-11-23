@@ -37,8 +37,9 @@ export const ProductsProvider = ({ children }) => {
         snapshot.forEach(async (docSnapshot) => {
           let newPrize = docSnapshot.data().prize * (1 + percentage / 100);
           newPrize = Number(newPrize.toFixed(2));
-          const docRef = doc(db, "menu", docSnapshot.id); // Corrección aquí
+          const docRef = doc(db, "menu", docSnapshot.id); 
           await updateDoc(docRef, { prize: newPrize });
+          Swal.fire("Los precios han sido actualizados");
         });
       } catch (error) {
         console.error("Error al actualizar los precios:", error);
@@ -60,7 +61,7 @@ export const ProductsProvider = ({ children }) => {
       localStorage.setItem("isAuthenticated", "true");
       setShowLoginModal(false);
     } else {
-      alert("Credenciales incorrectas");
+      Swal.fire(`Las credenciales ingresadas son incorrectas`);
     }
   };
 
@@ -96,10 +97,12 @@ export const ProductsProvider = ({ children }) => {
         image: imageUrl,
       });
 
-      console.log("Producto añadido con éxito");
+      Swal.fire("Producto añadido con exito");
     } catch (error) {
       console.error("Error al subir la imagen y añadir el producto: ", error);
     }
+
+    
   };
 
   //Edicion de productos
@@ -138,8 +141,8 @@ export const ProductsProvider = ({ children }) => {
         prize: prize,
         title: title,
       });
-
-      console.log(`Document with ID ${id} has been updated.`);
+      Swal.fire(`El producto  ${title} ha sido editado correctamente`);
+    
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -151,7 +154,8 @@ export const ProductsProvider = ({ children }) => {
       const db = getFirestore(firebaseApp);
       const productRef = doc(db, "menu", productId);
       await deleteDoc(productRef);
-      console.log(`Producto ${productId} eliminado con éxito`);
+      
+      Swal.fire(`Producto ${productId} eliminado con éxito`);
 
       // Actualizar el estado local después de eliminar el producto de Firebase
       setProducts((prevProducts) =>
@@ -192,9 +196,9 @@ export const ProductsProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, []);
+  }, [products]);
 
-  //cheque si el Admin esta logueado
+  //chequea si el Admin esta logueado
   useEffect(() => {
     const storedAuthState = localStorage.getItem("isAuthenticated");
     if (storedAuthState === "true") {
@@ -262,6 +266,7 @@ export const ProductsProvider = ({ children }) => {
       };
 
       await addDoc(ordersCol, order);
+      Swal.fire(`Su pedido fu ordenado con exito `);
 
       clearCart();
     } catch (error) {
@@ -379,6 +384,7 @@ export const ProductsProvider = ({ children }) => {
       const colectionCategories = collection(db, "categoriasDelMenu");
 
       await addDoc(colectionCategories, { categoria: categoryName });
+      Swal.fire(`La categoria ${categoryName} fue agregada correctamente`);
     } catch (error) {
       console.error("Error al agregar categoría: ", error);
     }
@@ -398,7 +404,7 @@ export const ProductsProvider = ({ children }) => {
       const db = getFirestore(firebaseApp);
       const productRef = doc(db, "categoriasDelMenu", categoryId);
       await deleteDoc(productRef);
-      console.log(`Categoria ${categoryId} eliminado con éxito`);
+      Swal.fire(`La categoria fue eliminada con éxito`);
 
       // Actualizar el estado categorias para reflejar la eliminación
       setCategorias(

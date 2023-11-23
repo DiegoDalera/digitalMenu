@@ -27,18 +27,23 @@
 
 }
 
+.admin-table td {
+    vertical-align: middle;
+  }
+
+  
+
 .table-head{
     text-align: center;
 }
 /* Responsive */
 
 @media (max-width: 768px) {
+
     .admin-buttons {
         display: flex;
         flex-direction: column;
         gap: 10px;
     }
-
-
 
 }

@@ -61,7 +61,7 @@ function ModalLoginAdmin() {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Ingresar a Administracion
+          Ingresar a la seccion de Administracion
         </Modal.Title>
       </Modal.Header>
 
@@ -98,14 +98,6 @@ function ModalLoginAdmin() {
                   <small id="passworderror" className="text-danger form-text">
                     {passwordError}
                   </small>
-                </div>
-                <div className="form-group form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label className="form-check-label">Recordarme</label>
                 </div>
                 <button type="submit" className="btn btn-primary">
                   Submit

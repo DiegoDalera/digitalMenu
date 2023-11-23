@@ -27,16 +27,18 @@ const ModalAddProduct = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    // Verificar si todos los campos del formulario tienen valores
     const { title, descripcion, category, prize } = productToAdd;
     const hasValidData =
       title.trim() !== "" &&
       descripcion.trim() !== "" &&
       category !== "" &&
-      prize !== "";
+      !isNaN(prize) &&
+      prize > 0;
 
-    // Habilitar o deshabilitar el botón de "Agregar" en función de los campos completos
-    setIsFormValid(hasValidData && !!imageProducto);
+    const isValidImage =
+      imageProducto && ["image/jpeg", "image/png"].includes(imageProducto.type);
+
+    setIsFormValid(hasValidData && isValidImage);
   }, [productToAdd, imageProducto]);
 
   // Maneja los cambios en los campos de texto del formulario
@@ -84,13 +86,11 @@ const ModalAddProduct = () => {
       // Manejo adicional del error
       return;
     }
-    
 
     // Después de agregar el producto, carga nuevamente la lista de productos
     Swal.fire("Producto actualizado correctamente");
     handleCloseAddModal();
   };
-
 
   return (
     <Modal
