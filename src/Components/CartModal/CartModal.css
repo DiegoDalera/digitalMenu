@@ -58,7 +58,15 @@ li.product {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
 
+}
+
+.btn-erase{
+    background-color: #fff;
+    border: none;
+    color:red;
+    font-size: 32px;
 }
 
 .subtotal {
@@ -67,19 +75,20 @@ li.product {
     flex-direction: row;
     align-items: center;
     justify-content: end;
-    margin:20px;
+    margin: 20px;
 }
 
-.comentarios-text{
+.comentarios-text {
     width: 100%;
-    margin:20px;
+    margin: 20px;
 }
 
-.table-content{
+.table-content {
     display: flex;
     justify-content: space-around;
 }
-.num-table{
+
+.num-table {
     width: 50px;
     font-size: 1.2rem;
     text-align: center;
@@ -100,14 +109,17 @@ li.product {
     background: #fff;
     border: 2px solid #212529;
     color: #212529;
-  }
-  .btn-pago:hover {
+}
+
+.btn-pago:hover {
     color: #fff;
-  }
-  .btn-pago:hover:after {
+}
+
+.btn-pago:hover:after {
     width: 100%;
-  }
-  .btn-pago:after {
+}
+
+.btn-pago:after {
     content: "";
     position: absolute;
     z-index: -1;
@@ -117,5 +129,10 @@ li.product {
     width: 0;
     height: 100%;
     background: #212529;
-  }
-  
+}
+
+.delete-icon {
+    font-size: 32px;
+    color: aqua;
+    border: none
+}

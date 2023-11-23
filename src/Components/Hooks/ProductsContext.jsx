@@ -322,7 +322,6 @@ export const ProductsProvider = ({ children }) => {
       const productRef = doc(db, "pedidos", productId);
       await deleteDoc(productRef);
       Swal.fire(`Pedido ${productId} eliminado con éxito`);
-      
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
     }

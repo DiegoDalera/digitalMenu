@@ -5,13 +5,21 @@ import "./CartModal.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import { Trash } from "react-bootstrap-icons";
+
 function CartModal() {
-  const { isCartModalVisible, hideCartModal,cartProducts,removeFromCart,sendOrder } = useProducts();
+  const {
+    isCartModalVisible,
+    hideCartModal,
+    cartProducts,
+    removeFromCart,
+    sendOrder,
+  } = useProducts();
 
   const totalPrice = cartProducts.reduce((total, product) => {
     return total + product.prize;
   }, 0);
-  
+
   return (
     <Modal
       size="lg"
@@ -24,7 +32,6 @@ function CartModal() {
         <Modal.Title id="contained-modal-title-vcenter">Tu pedido</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
         {cartProducts.map((product) => (
           <li className="product" key={product.uniqueId}>
             <div className="product-text">
@@ -35,19 +42,15 @@ function CartModal() {
               </p>
             </div>
             <div className="btn-borrar">
-              <button
-                onClick={() => removeFromCart(product.uniqueId)}
-                className="eliminar-item"
-              >
-                Eliminar
+              <button className ="btn-erase"   onClick={() => removeFromCart(product.uniqueId)}>
+                <Trash />
               </button>
             </div>
           </li>
         ))}
-
       </Modal.Body>
       <Modal.Footer>
-      <p>Total a pagar: ${totalPrice.toFixed(2)}</p>
+        <p>Total a pagar: ${totalPrice.toFixed(2)}</p>
         <Button onClick={hideCartModal}>Close</Button>
         <Button onClick={sendOrder}>Enviar Orden</Button>
       </Modal.Footer>
