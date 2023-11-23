@@ -7,8 +7,8 @@ import Button from "react-bootstrap/Button";
 import CocinaTopBar from "./CocinaTopBar";
 
 const Cocina = () => {
-  const { isAuthenticatedCocina, pedidos,onEliminarPedido  } = useContext(ProductsContext);
-
+  const { isAuthenticatedCocina, pedidos, onEliminarPedido } =
+    useContext(ProductsContext);
 
   return (
     <div className="logeo_cocina">
