@@ -22,3 +22,10 @@
 .category-item:hover {
     background-color: #e9e9e9;
 }
+
+.category-item.selected {
+    background-color: #4CAF50; 
+    color: white; 
+    
+  }
+  

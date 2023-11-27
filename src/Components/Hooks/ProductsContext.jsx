@@ -39,7 +39,6 @@ export const ProductsProvider = ({ children }) => {
           newPrize = Number(newPrize.toFixed(2));
           const docRef = doc(db, "menu", docSnapshot.id); 
           await updateDoc(docRef, { prize: newPrize });
-          Swal.fire("Los precios han sido actualizados");
         });
       } catch (error) {
         console.error("Error al actualizar los precios:", error);

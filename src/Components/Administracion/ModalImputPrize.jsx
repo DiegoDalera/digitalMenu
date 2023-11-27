@@ -29,7 +29,7 @@ function ModalImputPrize() {
     <Modal
       show={isModalVisible}
       onHide={hideImputPrizeModal}
-      size="lg"
+      size="xs"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
