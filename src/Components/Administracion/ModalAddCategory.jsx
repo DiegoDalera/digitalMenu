@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useProducts } from "../Hooks/ProductsContext";
 import { Button, Modal, Form } from "react-bootstrap";
 import './ModalAddCategory.css'
-import Swal from "sweetalert2";
+
 
 const ModalAddCategory = () => {
   const [newCategory, setNewCategory] = useState("");
@@ -16,7 +16,6 @@ const ModalAddCategory = () => {
   const handleAddCategory = (event) => {
     event.preventDefault();
     addCategoryToFirebase(newCategory);
-    Swal.fire("Categoria agregada correctamente");
     setNewCategory("");
     handleCloseModalAddCategory();
   };

@@ -384,6 +384,7 @@ export const ProductsProvider = ({ children }) => {
 
       await addDoc(colectionCategories, { categoria: categoryName });
       Swal.fire(`La categoria ${categoryName} fue agregada correctamente`);
+      obtenerCategorias();
     } catch (error) {
       console.error("Error al agregar categoría: ", error);
     }
