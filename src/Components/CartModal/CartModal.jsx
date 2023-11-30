@@ -5,7 +5,7 @@ import "./CartModal.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-import { Trash } from "react-bootstrap-icons";
+// import { Trash } from "react-bootstrap-icons";
 
 function CartModal() {
   const {
@@ -46,7 +46,7 @@ function CartModal() {
                 className="btn-erase"
                 onClick={() => removeFromCart(product.uniqueId)}
               >
-                <Trash />
+                borrar
               </button>
             </div>
           </li>
